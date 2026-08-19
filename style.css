@@ -1,0 +1,132 @@
+body {
+    font-family: sans-serif;
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    user-select: none;
+}
+
+#general-block {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: rgb(255, 255, 255);
+    border-right: solid black 1px;
+}
+
+#title-container {
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 10px;
+    font-size: 20px;
+    background: rgb(255, 255, 255);
+    border-bottom: solid black 1px;
+}
+
+.title-network {
+    font-size: 10px;
+}
+
+#icons-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    gap: 5px;
+    width: 100%;
+    background: rgb(250, 250, 250);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.element {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    padding: 5px 5px;
+    background: rgb(255, 255, 255);
+    border: solid black 1px;
+}
+
+.icon-window {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.icon-window img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.text {
+    font-size: 8px;
+    padding: 10px 5px;
+}
+
+#buttons-container {
+    display: flex;
+    flex-direction: column;
+    border-top: solid black 1px;
+    padding: 5px 0px;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+#buttons-container,
+#icons-container {
+    padding: 5px 5px;
+}
+
+.buttons-style {
+    box-sizing: border-box;
+    width: 100%;
+    height: 22px;
+    font-size: 7px;
+    border-radius: 3px;
+    outline: none;
+    border: solid black 1px;
+    transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.buttons-style:hover {
+    transform: scale(1.02);
+}
+
+#download-button:active {
+    background: black;
+    color: white;
+}
+
+#Footer a {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 0px 5px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 9px;
+    color: rgb(0, 0, 0);
+    gap: 2px;
+}

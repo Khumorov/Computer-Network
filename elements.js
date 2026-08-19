@@ -1,0 +1,8 @@
+    export const shadow = document.getElementById("shadow")
+    export const buildMode = document.getElementById("build-button-mode")
+    export const buildButton = document.getElementById("build-button")
+    export const buildModePanel = document.getElementById("build-mode")
+    export const download = document.getElementById("download-button")
+    export const cabel = document.getElementById("cabel")
+    export const erase = document.getElementById("erase")
+    export const clickSound = new Audio("./Sounds/Buttons/Click.mp3")

@@ -56,8 +56,13 @@ body {
     align-items: center;
     border-radius: 3px;
     padding: 5px 5px;
-    background: rgb(255, 255, 255);
+    background: white;
     border: solid black 1px;
+    transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.element:hover {
+    transform: scale(1.02);
 }
 
 .icon-window {
@@ -111,9 +116,12 @@ body {
     transform: scale(1.02);
 }
 
-#download-button:active {
+#download-button:active,
+#build-button:active,
+#build:active {
     background: black;
     color: white;
+    transform: scale(1.0);
 }
 
 #Footer a {
@@ -129,4 +137,48 @@ body {
     font-size: 9px;
     color: rgb(0, 0, 0);
     gap: 2px;
+}
+
+#build-mode {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 20px;
+    gap: 10px;
+    width: 250px;
+    background: rgb(255, 255, 255);
+    border: solid black 1px;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#shadow {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.2s ease;
+}
+
+#build-mode-list {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: 22px;
+    font-size: 10px;
+    gap: 10px;
+    outline: none;
 }

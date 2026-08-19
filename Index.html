@@ -11,6 +11,25 @@
 <title>Network</title>
 </head>
 <body>
+    <div id="build-mode">
+        <select id="build-mode-list">
+            <option disabled selected hidden>Выберите стандарт Ethernet</option>
+            <option>10BASE-5</option>
+            <option>10BASE-2</option>
+            <option>10BASE-T</option>
+            <option>100BASE-TX</option>
+            <option>100BASE-T4</option>
+            <option>100BASE-T2</option>
+            <option>1000BASE-T</option>
+            <option>1000BASE-TX</option>
+            <option>10BASE-FL</option>
+            <option>100BASE-FX</option>
+            <option>100BASE-SX</option>
+            <option>1000BASE-SX</option>
+        </select>
+        <button class="buttons-style" id="build-button">Построить</button>
+    </div>
+    <div id="shadow"></div>
     <div id="general-block">
         <div id="title-container">
             <span>COMPUTER</span>
@@ -49,9 +68,9 @@
             </div>
         </div>
         <div id="buttons-container">
-            <button class="buttons-style">Построить</button>
-            <button class="buttons-style">Кабель</button>
-            <button class="buttons-style">Стереть</button>
+            <button id="build-button-mode" class="buttons-style">Построить</button>
+            <button id="cabel" class="buttons-style">Кабель</button>
+            <button id="erase" class="buttons-style">Стереть</button>
             <button id="download-button" class="buttons-style">Скачать</button>
         </div>
     </div>
@@ -63,4 +82,5 @@
          </a>
     </footer>
 </body>
+<script type="module" src="./main.js"></script>
 </html>

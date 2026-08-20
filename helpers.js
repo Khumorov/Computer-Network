@@ -1,5 +1,6 @@
 import {
     clickSound,
+    completeSound,
     erase,
     cabel
 } from "./elements.js"
@@ -53,4 +54,9 @@ import {
     export function playClickSound() {
         clickSound.currentTime = 0
         clickSound.play()
+    }
+
+    export function playCompleteSound() {
+        completeSound.currentTime = 0
+        completeSound.play()
     }

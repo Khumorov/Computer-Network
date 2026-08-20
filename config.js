@@ -16,7 +16,7 @@ export const icons = [
     }
 ]
 
-export const ethernetStandarts = [
+export const ethernetStandards = [
     {name: "10BASE-5"},
     {name: "10BASE-2"},
     {name: "10BASE-T"},

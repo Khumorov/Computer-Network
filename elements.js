@@ -5,6 +5,7 @@
     export const download = document.getElementById("download-button")
     export const cabel = document.getElementById("cabel")
     export const erase = document.getElementById("erase")
+    export const canvas = document.getElementById("canvas")
     export const iconsContainer = document.getElementById("icons-container")
     export const clickSound = new Audio("./Sounds/Buttons/click.mp3")
     export const completeSound = new Audio("./Sounds/Buttons/complete.mp3")

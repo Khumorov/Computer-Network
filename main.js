@@ -8,7 +8,8 @@ import {
     erase,
     clickSound,
     completeSound,
-    iconsContainer
+    iconsContainer,
+    canvas
 } from "./elements.js"
 
 import {
@@ -26,8 +27,12 @@ import {
 
 import {
     icons,
-    ethernetStandarts
+    ethernetStandards
 } from "./config.js"
+
+import {
+    enableDrag
+} from "./drag.js"
 
 function createIcon(iconPath, text, id) {
 const block = document.createElement("div")
@@ -59,6 +64,7 @@ icons.forEach((icon, index) => {
         `icon-${index}`
     )
     iconsContainer.appendChild(element)
+    enableDrag(element, canvas)
 })
 
 function createSelect(option) {
@@ -72,17 +78,17 @@ function createSelect(option) {
     placeholder.hidden = true;
     select.appendChild(placeholder);
 
-    option.forEach(standart => {
+    option.forEach(standard => {
         const opt = document.createElement("option")
 
-        opt.textContent = standart.name
-        opt.value = standart.name
+        opt.textContent = standard.name
+        opt.value = standard.name
         select.appendChild(opt)
     })
     return select
 }
 
-const select = createSelect(ethernetStandarts)
+const select = createSelect(ethernetStandards)
 buildModePanel.insertBefore(select, buildButton)
 
 function autoBuild() {

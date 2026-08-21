@@ -9,7 +9,8 @@ import {
     clickSound,
     completeSound,
     iconsContainer,
-    canvas
+    canvas,
+    viewport
 } from "./elements.js"
 
 import {
@@ -33,6 +34,10 @@ import {
 import {
     enableDrag
 } from "./drag.js"
+
+import {
+    enablePan
+} from "./world.js"
 
 function createIcon(iconPath, text, id) {
 const block = document.createElement("div")
@@ -64,7 +69,7 @@ icons.forEach((icon, index) => {
         `icon-${index}`
     )
     iconsContainer.appendChild(element)
-    enableDrag(element, canvas)
+    enableDrag(element, canvas, viewport)
 })
 
 function createSelect(option) {
@@ -90,6 +95,8 @@ function createSelect(option) {
 
 const select = createSelect(ethernetStandards)
 buildModePanel.insertBefore(select, buildButton)
+
+enablePan(canvas, viewport)
 
 function autoBuild() {
     playClickSound()

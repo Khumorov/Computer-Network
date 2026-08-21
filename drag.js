@@ -1,7 +1,8 @@
 import {
     cabel,
     erase,
-    eraseSound
+    eraseSound,
+    viewport
 } from "./elements.js"
 
 import {
@@ -56,8 +57,10 @@ export function enableDrag(element, canvas) {
         upEvent.clientY <= canvasRect.bottom
 
         if (dropInsideCanvas) {
-            const x = upEvent.clientX - canvasRect.left
-            const y = upEvent.clientY - canvasRect.top
+
+            const viewportRect = viewport.getBoundingClientRect()
+            const x = upEvent.clientX - viewportRect.left
+            const y = upEvent.clientY - viewportRect.top
 
             createCanvasNode(iconClone.src, x, y, canvas)
         }
@@ -80,7 +83,7 @@ function createCanvasNode(iconSrc, x, y, canvas) {
     img.src = iconSrc
 
     node.appendChild(img)
-    canvas.appendChild(node)
+    viewport.appendChild(node)
 
     node.addEventListener("mousedown", (event) => {
         if (erase.classList.contains("active")) {
@@ -110,7 +113,7 @@ function makeNodeDraggable(node, canvas) {
 
         event.stopPropagation()
 
-        const canvasRect = canvas.getBoundingClientRect()
+        const viewportRect = viewport.getBoundingClientRect()
         const nodeRect = node.getBoundingClientRect()
 
         const shiftX = event.clientX - nodeRect.left
@@ -119,13 +122,14 @@ function makeNodeDraggable(node, canvas) {
         node.style.cursor = "grabbing"
 
         function onMouseMove(moveEvent) {
-            let newX = moveEvent.clientX - canvasRect.left - shiftX
-            let newY = moveEvent.clientY - canvasRect.top - shiftY
+
+            let newX = moveEvent.clientX - viewportRect.left - shiftX
+            let newY = moveEvent.clientY - viewportRect.top - shiftY
 
             node.style.left = `${newX}px`
             node.style.top = `${newY}px`
 
-            updateWiresForNode(node, canvas)
+            updateWiresForNode(node)
         }
 
         function onMouseUp() {

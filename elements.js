@@ -6,6 +6,7 @@
     export const cabel = document.getElementById("cabel")
     export const erase = document.getElementById("erase")
     export const canvas = document.getElementById("canvas")
+    export const viewport = document.getElementById("viewport")
     export const iconsContainer = document.getElementById("icons-container")
     export const clickSound = new Audio("./Sounds/Buttons/click.mp3")
     export const eraseSound = new Audio("./Sounds/Buttons/erase.mp3")

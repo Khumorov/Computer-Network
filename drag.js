@@ -16,8 +16,8 @@ export function enableDrag(element, canvas) {
     const iconClone = document.createElement("img")
     iconClone.src = element.querySelector("img").src
     iconClone.style.position = "fixed"
-    iconClone.style.width = "25px"
-    iconClone.style.height = "25px"
+    iconClone.style.width = "30px"
+    iconClone.style.height = "30px"
     iconClone.style.pointerEvents = "none"
     document.body.appendChild(iconClone)
     element.style.cursor = "grabbing";
@@ -73,6 +73,13 @@ function createCanvasNode(iconSrc, x, y, canvas) {
 
     node.appendChild(img)
     canvas.appendChild(node)
+
+    node.addEventListener("mousedown", (event) => {
+        if (erase.classList.contains("active")) {
+            event.stopPropagation()
+            node.remove()
+        }
+    })
 
     makeNodeDraggable(node, canvas)
 }

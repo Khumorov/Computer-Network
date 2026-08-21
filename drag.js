@@ -1,7 +1,15 @@
 import {
     cabel,
-    erase
+    erase,
+    eraseSound
 } from "./elements.js"
+
+import {
+    enableWireDrag,
+    updateWiresForNode,
+    removeWiresForNode
+} from "./wires.js"
+
 
 export function enableDrag(element, canvas) {
 
@@ -77,10 +85,14 @@ function createCanvasNode(iconSrc, x, y, canvas) {
     node.addEventListener("mousedown", (event) => {
         if (erase.classList.contains("active")) {
             event.stopPropagation()
+            removeWiresForNode(node)
             node.remove()
+            eraseSound.currentTime = 0
+            eraseSound.play()
         }
     })
 
+    enableWireDrag(node, canvas)
     makeNodeDraggable(node, canvas)
 }
 
@@ -112,6 +124,8 @@ function makeNodeDraggable(node, canvas) {
 
             node.style.left = `${newX}px`
             node.style.top = `${newY}px`
+
+            updateWiresForNode(node, canvas)
         }
 
         function onMouseUp() {

@@ -8,4 +8,5 @@
     export const canvas = document.getElementById("canvas")
     export const iconsContainer = document.getElementById("icons-container")
     export const clickSound = new Audio("./Sounds/Buttons/click.mp3")
+    export const eraseSound = new Audio("./Sounds/Buttons/erase.mp3")
     export const completeSound = new Audio("./Sounds/Buttons/complete.mp3")

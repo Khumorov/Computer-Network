@@ -1,7 +1,9 @@
 import {
     cabel,
     erase,
+    choiceYes,
     eraseSound,
+    pageFlipSound,
     viewport
 } from "./elements.js"
 

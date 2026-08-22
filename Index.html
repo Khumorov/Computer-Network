@@ -11,6 +11,16 @@
 <title>Network</title>
 </head>
 <body>
+    <div id="warning-window">
+        <div id="warning-window-title">
+        <span>Вы точно хотите создать новый холст?</span>
+        <span id="description">Прошлый холст будет удалён безвозвратно.</span>
+        </div>
+        <div id="choice-buttons-gap">
+        <button class="choice-button" id="choice-yes">Да</button>
+        <button class="choice-button" id="choice-no">Нет</button>
+        </div>
+    </div>
     <div id="canvas">
         <div id="viewport"></div>
     </div>
@@ -30,6 +40,7 @@
             <button id="build-button-mode" class="buttons-style">Построить</button>
             <button id="cabel" class="buttons-style">Кабель</button>
             <button id="erase" class="buttons-style">Стереть</button>
+            <button id="new-canvas" class="buttons-style">Новый холст</button>
             <button id="download-button" class="buttons-style">Скачать</button>
         </div>
     </div>

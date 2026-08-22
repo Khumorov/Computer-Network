@@ -29,6 +29,18 @@ import {
       buildModePanel.style.pointerEvents = "none"
     }
 
+    export function warning_window_enabled(warningWindow) {
+      warningWindow.style.opacity = 1
+      warningWindow.style.transition = "0.5s ease"
+      warningWindow.style.pointerEvents = "all"
+    }
+
+    export function warning_window_disabled(warningWindow) {
+      warningWindow.style.opacity = 0
+      warningWindow.style.transition = "0.5s ease"
+      warningWindow.style.pointerEvents = "none"
+    }
+
     export function erase_enabled(erase) {
       erase.style.background = "rgb(206, 7, 7)"
       erase.style.color = "white"

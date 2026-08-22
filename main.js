@@ -6,8 +6,13 @@ import {
     download,
     cabel,
     erase,
+    newCanvas,
+    warningWindow,
+    choiceYes,
+    choiceNo,
     clickSound,
     completeSound,
+    pageFlipSound,
     iconsContainer,
     canvas,
     viewport
@@ -23,7 +28,9 @@ import {
     erase_enabled,
     erase_disabled,
     cabel_enabled,
-    cabel_disabled
+    cabel_disabled,
+    warning_window_enabled,
+    warning_window_disabled
 } from "./helpers.js"
 
 import {
@@ -32,12 +39,16 @@ import {
 } from "./config.js"
 
 import {
-    enableDrag
+    enableDrag,
 } from "./drag.js"
 
 import {
     enablePan
 } from "./world.js"
+
+import {
+    removeWiresForNode
+} from "./wires.js"
 
 function createIcon(iconPath, text, id) {
 const block = document.createElement("div")
@@ -141,13 +152,55 @@ function onEraseClick() {
     }
 }
 
+function onNewCanvasClick() {
+    playClickSound()
+    warning_window_enabled(warningWindow)
+    shadow_enabled(shadow)
+}
+
+function clearAllCanvas() {
+    const allNodes = document.querySelectorAll(".canvas-node")
+
+    allNodes.forEach(node => {
+        removeWiresForNode(node)
+        node.remove()
+    })
+
+    pageFlipSound.currentTime = 0
+    pageFlipSound.play()
+}
+
+function onChoiceYesClick(event) {
+    event.stopPropagation()
+    clearAllCanvas()
+    warning_window_disabled(warningWindow)
+    shadow_disabled(shadow)
+}
+
+function onChoiceNoClick() {
+    playClickSound()
+    warning_window_disabled(warningWindow)
+    shadow_disabled(shadow)
+}
+
 function onDownloadClick() {
     playClickSound()
 }
 
+function shadowCloseWindows() {
+    auto_build_panel_disabled(buildModePanel)
+    warning_window_disabled(warningWindow)
+    shadow_disabled(shadow)
+}
+
 buildMode.addEventListener("click", autoBuild)
-shadow.addEventListener("click", autoBuildClose)
+
+shadow.addEventListener("click", shadowCloseWindows)
+
 buildButton.addEventListener("click", onButtonClick)
 download.addEventListener("click", onDownloadClick)
 cabel.addEventListener("click", onCabelClick)
 erase.addEventListener("click", onEraseClick)
+newCanvas.addEventListener("click", onNewCanvasClick)
+choiceYes.addEventListener("click", onChoiceYesClick)
+choiceNo.addEventListener("click", onChoiceNoClick)

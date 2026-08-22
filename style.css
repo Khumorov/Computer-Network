@@ -113,13 +113,16 @@ body {
     transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.buttons-style:hover {
+.buttons-style:hover,
+.choice-button:hover {
     transform: scale(1.02);
 }
 
 #download-button:active,
 #build-button:active,
-#build:active {
+#build:active,
+#new-canvas:active,
+.choice-button:active {
     background: black;
     color: white;
     transform: scale(1.0);
@@ -229,4 +232,56 @@ body {
     height: 10000px;
     pointer-events: none;
     z-index: -5;
+}
+
+#warning-window {
+    display: flex;
+    position: fixed;
+    width: 350px;
+    left: 50%;
+    top: 50%;
+    gap: 5px;
+    transform: translate(-50%, -50%);
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgb(255, 255, 255);
+    pointer-events: none;
+    opacity: 0;
+    border: solid black 1px;
+    border-radius: 2px;
+    z-index: 5;
+}
+
+#warning-window-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 20px;
+}
+
+#description {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.choice-button {
+    box-sizing: border-box;
+    width: 60px;
+    height: 25px;
+    gap: 10px;
+    font-size: 10px;
+    border-radius: 3px;
+    outline: none;
+    border: solid black 1px;
+    transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#choice-buttons-gap {
+    display: flex;
+    gap: 15px;
+    padding: 0px 0px 20px 0px;
 }

@@ -1,17 +1,22 @@
 export const icons = [
-    {name: "Компьютер",   
+    {name: "Компьютер",
+     type: "computer",   
      iconPath: "./Images/Icons/Computer.avif"
     },
-    {name: "Ноутбук",     
+    {name: "Ноутбук",
+     type: "laptop",     
      iconPath: "./Images/Icons/Laptop.avif"
     },
-    {name: "Принтер",     
+    {name: "Принтер",
+     type: "printer",        
      iconPath: "./Images/Icons/Printer.avif"
     },
-    {name: "Повторитель", 
+    {name: "Повторитель",
+     type: "repeater", 
      iconPath: "./Images/Icons/Repeater.avif"
     },
-    {name: "Роутер",      
+    {name: "Роутер",
+     type: "router",      
      iconPath: "./Images/Icons/Router.avif"
     }
 ]

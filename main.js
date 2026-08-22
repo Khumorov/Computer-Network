@@ -80,7 +80,7 @@ icons.forEach((icon, index) => {
         `icon-${index}`
     )
     iconsContainer.appendChild(element)
-    enableDrag(element, canvas, viewport)
+    enableDrag(element, canvas, icon.type, icon.name)
 })
 
 function createSelect(option) {

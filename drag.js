@@ -4,7 +4,7 @@ import {
     choiceYes,
     eraseSound,
     pageFlipSound,
-    viewport
+    viewport,
 } from "./elements.js"
 
 import {
@@ -14,7 +14,7 @@ import {
 } from "./wires.js"
 
 
-export function enableDrag(element, canvas) {
+export function enableDrag(element, canvas, type, label) {
 
     element.style.cursor = "grab"
 
@@ -26,10 +26,7 @@ export function enableDrag(element, canvas) {
 
     const iconClone = document.createElement("img")
     iconClone.src = element.querySelector("img").src
-    iconClone.style.position = "fixed"
-    iconClone.style.width = "30px"
-    iconClone.style.height = "30px"
-    iconClone.style.pointerEvents = "none"
+    iconClone.classList.add("icon-clone")
     document.body.appendChild(iconClone)
     element.style.cursor = "grabbing";
 
@@ -64,7 +61,7 @@ export function enableDrag(element, canvas) {
             const x = upEvent.clientX - viewportRect.left
             const y = upEvent.clientY - viewportRect.top
 
-            createCanvasNode(iconClone.src, x, y, canvas)
+            createCanvasNode(iconClone.src, x, y, canvas, type, label)
         }
     }
 
@@ -73,10 +70,22 @@ export function enableDrag(element, canvas) {
     })
 }
 
-function createCanvasNode(iconSrc, x, y, canvas) {
+export function renumberType(type) {
+    const sameTypeNodes = viewport.querySelectorAll(`.canvas-node[data-type="${type}"]`)
+    sameTypeNodes.forEach((node, index) => {
+        const label = node.querySelector(".node-label")
+        if (label) {
+            label.textContent = `${node.dataset.label} ${index + 1}`
+    }
+  })
+}
+
+function createCanvasNode(iconSrc, x, y, canvas, type, label) {
     const node = document.createElement("div")
     node.className = "canvas-node"
     node.style.position = "absolute"
+    node.dataset.type = type
+    node.dataset.label = label
 
     node.style.left = `${x - 30}px`
     node.style.top = `${y - 30}px`
@@ -84,8 +93,14 @@ function createCanvasNode(iconSrc, x, y, canvas) {
     const img = document.createElement("img")
     img.src = iconSrc
 
+    const nodeLabel = document.createElement("div")
+    nodeLabel.className = "node-label"
+
     node.appendChild(img)
+    node.appendChild(nodeLabel)
     viewport.appendChild(node)
+
+    renumberType(type)
 
     node.addEventListener("mousedown", (event) => {
         if (erase.classList.contains("active")) {
@@ -94,6 +109,7 @@ function createCanvasNode(iconSrc, x, y, canvas) {
             node.remove()
             eraseSound.currentTime = 0
             eraseSound.play()
+            renumberType(type)
         }
     })
 

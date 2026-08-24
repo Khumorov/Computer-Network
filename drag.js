@@ -13,6 +13,11 @@ import {
     removeWiresForNode
 } from "./wires.js"
 
+import {
+    saveNetwork
+} from "./storage.js"
+
+let nodeIdCounter = 0
 
 export function enableDrag(element, canvas, type, label) {
 
@@ -80,12 +85,22 @@ export function renumberType(type) {
   })
 }
 
-function createCanvasNode(iconSrc, x, y, canvas, type, label) {
+export function createCanvasNode(iconSrc, x, y, canvas, type, label, activeId) {
     const node = document.createElement("div")
     node.className = "canvas-node"
     node.style.position = "absolute"
     node.dataset.type = type
     node.dataset.label = label
+
+    if (activeId) {
+        node.dataset.id = activeId
+        const math = /^node-(\d+)$/.exec(activeId)
+        if (math) {
+            nodeIdCounter = Math.max(nodeIdCounter, parseInt(math[1], 10))
+        }
+        } else {
+            node.dataset.id = activeId || `node-${++nodeIdCounter}`
+        }
 
     node.style.left = `${x - 30}px`
     node.style.top = `${y - 30}px`
@@ -102,6 +117,10 @@ function createCanvasNode(iconSrc, x, y, canvas, type, label) {
 
     renumberType(type)
 
+    if (!activeId) {
+    saveNetwork()
+    }
+
     node.addEventListener("mousedown", (event) => {
         if (erase.classList.contains("active")) {
             event.stopPropagation()
@@ -110,11 +129,15 @@ function createCanvasNode(iconSrc, x, y, canvas, type, label) {
             eraseSound.currentTime = 0
             eraseSound.play()
             renumberType(type)
+            saveNetwork()
         }
     })
 
     enableWireDrag(node, canvas)
     makeNodeDraggable(node, canvas)
+
+    return node
+
 }
 
 

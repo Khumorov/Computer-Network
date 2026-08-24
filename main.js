@@ -40,6 +40,7 @@ import {
 
 import {
     enableDrag,
+    createCanvasNode
 } from "./drag.js"
 
 import {
@@ -47,8 +48,15 @@ import {
 } from "./world.js"
 
 import {
-    removeWiresForNode
+    removeWiresForNode,
+    createWire
 } from "./wires.js"
+
+import {
+    saveNetwork,
+    loadNetwork,
+    clearSavedNetwork
+} from "./storage.js"
 
 function createIcon(iconPath, text, id) {
 const block = document.createElement("div")
@@ -109,6 +117,10 @@ buildModePanel.insertBefore(select, buildButton)
 
 enablePan(canvas, viewport)
 
+viewport.addEventListener("world-pan-end", saveNetwork)
+
+loadNetwork(createCanvasNode, createWire)
+
 function autoBuild() {
     playClickSound()
     auto_build_panel_enabled(buildModePanel)
@@ -165,6 +177,8 @@ function clearAllCanvas() {
         removeWiresForNode(node)
         node.remove()
     })
+
+    clearSavedNetwork()
 
     pageFlipSound.currentTime = 0
     pageFlipSound.play()

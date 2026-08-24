@@ -3,6 +3,10 @@ import {
     viewport
 } from "./elements.js"
 
+import {
+    saveNetwork
+} from "./storage.js"
+
 export const wires = []
 
 const svg_offset = 5000
@@ -78,7 +82,7 @@ export function enableWireDrag(node) {
     })
 }
 
-function createWire(fromNode, toNode) {
+export function createWire(fromNode, toNode) {
     const viewportRect = viewport.getBoundingClientRect()
     const svg = getSvgLayer()
 
@@ -89,6 +93,7 @@ function createWire(fromNode, toNode) {
     svg.appendChild(line)
 
     wires.push({ line, from: fromNode, to: toNode })
+    saveNetwork()
 }
 
 export function updateWiresForNode(node) {
@@ -115,4 +120,5 @@ export function removeWiresForNode(node) {
             wires.splice(i, 1)
         }
     }
+  saveNetwork()
 }

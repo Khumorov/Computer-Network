@@ -1,6 +1,15 @@
 export let offsetX = 0
 export let offsetY = 0
 
+export function setOffset(x, y, viewport) {
+    offsetX = x
+    offsetY = y
+
+    if (viewport) {
+        viewport.style.transform = `translate( ${offsetX}px, ${offsetY}px )`
+    }
+}
+
 export function enablePan(canvas, viewport) {
 
     function applyTransform() {
@@ -32,6 +41,7 @@ export function enablePan(canvas, viewport) {
             canvas.classList.remove("world")
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
+            viewport.dispatchEvent(new CustomEvent("world-pan_end"))
         }
 
         document.addEventListener("mousemove", onMouseMove)

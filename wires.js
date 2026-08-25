@@ -113,6 +113,13 @@ export function updateWiresForNode(node) {
     })
 }
 
+window.addEventListener("resize", () => {
+    wires.forEach(wire => {
+        updateWiresForNode(wire.from)
+        updateWiresForNode(wire.to)
+    })
+})
+
 export function removeWiresForNode(node) {
     for (let i = wires.length - 1; i >= 0; i--) {
         if (wires[i].from === node || wires[i].to === node) {

@@ -117,7 +117,7 @@ buildModePanel.insertBefore(select, buildButton)
 
 enablePan(canvas, viewport)
 
-viewport.addEventListener("world-pan-end", saveNetwork)
+viewport.addEventListener("world-pan_end", saveNetwork)
 
 loadNetwork(createCanvasNode, createWire)
 

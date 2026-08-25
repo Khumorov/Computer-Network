@@ -177,6 +177,7 @@ function makeNodeDraggable(node, canvas) {
             node.style.cursor = "grab"
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
+            saveNetwork()
         }
 
         document.addEventListener("mousemove", onMouseMove)

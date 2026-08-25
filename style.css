@@ -14,6 +14,7 @@ body {
     left: 0;
     width: 250px;
     height: 100%;
+    z-index: 0;
     background: rgb(255, 255, 255);
     border-right: solid black 1px;
 }
@@ -148,7 +149,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +170,7 @@ body {
     height: 100%;
     background: rgb(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
-    z-index: 1;
+    z-index: 10;
     top: 0;
     left: 0;
     pointer-events: none;
@@ -190,6 +191,7 @@ body {
 #canvas {
     position: fixed;
     top: 0;
+    z-index: 0;
     left: 250px;
     width: calc(100% - 250px);
     height: 100%;
@@ -261,7 +263,7 @@ body {
     opacity: 0;
     border: solid black 1px;
     border-radius: 2px;
-    z-index: 5;
+    z-index: 30;
 }
 
 #warning-window-title {
@@ -300,4 +302,78 @@ body {
     width: 30px;
     height: 30px;
     pointer-events: none;
+}
+
+#settings-button {
+    display: flex;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 0px 50px 0px rgba(34, 60, 80, 0.3);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    border: solid black 1px;
+    border-radius: 5px;
+    z-index: 5;
+    outline: none;
+}
+
+#settings-button.settings-open {
+    z-index: 50;
+}
+
+#settings-button span {
+    display: block;
+    width: 15px;
+    height: 3px;
+    background: rgb(0, 0, 0);
+    border-radius: 3px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#settings-button.active span:nth-child(1) {
+    transform: translateY(5px) rotate(-45deg);
+}
+
+#settings-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+#settings-button.active span:nth-child(3) {
+    transform: translateY(-5px) rotate(45deg);
+}
+
+#settings-panel {
+    position: fixed;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100vh;
+    background: rgb(255, 255, 255);
+    border-left: solid black 1px;
+    transform: translateX(100%);
+    transition: transform 0.5s ease;
+    z-index: 20;
+    flex-direction: column;
+}
+
+#settings-panel.open {
+    transform: translateX(0);
+}
+
+.settings-title {
+    position: fixed;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 12px 10px;
+    font-family: "Manrope", sans-serif;
+    font-weight: 600;
 }

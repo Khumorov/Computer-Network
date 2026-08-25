@@ -15,7 +15,9 @@ import {
     pageFlipSound,
     iconsContainer,
     canvas,
-    viewport
+    viewport,
+    settingsButton,
+    settingsPanel
 } from "./elements.js"
 
 import {
@@ -205,12 +207,27 @@ function shadowCloseWindows() {
     auto_build_panel_disabled(buildModePanel)
     warning_window_disabled(warningWindow)
     shadow_disabled(shadow)
+    settingsButton.classList.remove("active")
+    settingsPanel.classList.remove("open")
+}
+
+function toggleButton() {
+    if (!settingsButton.classList.contains("active")) {
+    playClickSound()
+    shadow_enabled(shadow)
+    settingsButton.classList.add("active")
+    settingsButton.classList.add("settings-open")
+    settingsPanel.classList.add("open")
+    } else {
+        playClickSound()
+        shadow_disabled(shadow)
+        settingsButton.classList.remove("active")
+        settingsPanel.classList.remove("open")
+    }
 }
 
 buildMode.addEventListener("click", autoBuild)
-
 shadow.addEventListener("click", shadowCloseWindows)
-
 buildButton.addEventListener("click", onButtonClick)
 download.addEventListener("click", onDownloadClick)
 cabel.addEventListener("click", onCabelClick)
@@ -218,3 +235,19 @@ erase.addEventListener("click", onEraseClick)
 newCanvas.addEventListener("click", onNewCanvasClick)
 choiceYes.addEventListener("click", onChoiceYesClick)
 choiceNo.addEventListener("click", onChoiceNoClick)
+settingsButton.addEventListener("click", toggleButton)
+
+settingsPanel.addEventListener("transitionend", () => {
+    if (!settingsPanel.classList.contains("open")) {
+        settingsButton.classList.remove("settings-open")
+    }
+})
+
+// So it's gonna be forever
+// Or it's gonna go down in flames?
+// You can tell me when it's over
+// If the high was worth the pain
+// Got a long list of ex-lovers
+// They'll tell you I'm insane
+// Cause you know I love the players
+// And you love the game

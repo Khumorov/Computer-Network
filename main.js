@@ -18,7 +18,8 @@ import {
     viewport,
     settingsButton,
     settingsPanel,
-    sounds
+    sounds,
+    animations
 } from "./elements.js"
 
 import {
@@ -34,7 +35,8 @@ import {
     cabel_disabled,
     warning_window_enabled,
     warning_window_disabled,
-    onSoundsMuted
+    onSoundsMuted,
+    onAnimationsDisabled
 } from "./helpers.js"
 
 import {
@@ -64,6 +66,7 @@ import {
 } from "./storage.js"
 
 onSoundsMuted()
+onAnimationsDisabled()
 
 function createIcon(iconPath, text, id) {
     const block = document.createElement("div")
@@ -243,10 +246,21 @@ newCanvas.addEventListener("click", onNewCanvasClick)
 choiceYes.addEventListener("click", onChoiceYesClick)
 choiceNo.addEventListener("click", onChoiceNoClick)
 settingsButton.addEventListener("click", toggleButton)
+
+
 settingsPanel.addEventListener("transitionend", () => {
     if (!settingsPanel.classList.contains("open")) {
         settingsButton.classList.remove("settings-open")
     }
+})
+
+sounds.addEventListener("change", () => {
+    playClickSound()
+})
+
+animations.addEventListener("change", () => {
+    playClickSound()
+    document.body.classList.toggle("no-animations", onAnimationsDisabled())
 })
 
 // So it's gonna be forever

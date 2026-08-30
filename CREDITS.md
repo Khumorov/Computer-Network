@@ -59,3 +59,19 @@
 - License: CC0
 - Attribution: not required
 - Uploader: SVG Repo
+
+## animations-on.svg
+
+- Source: https://www.svgrepo.com/svg/500138/animation-play
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo
+
+## animations-off.svg
+
+- Source: https://www.svgrepo.com/svg/500140/animation-pause
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo

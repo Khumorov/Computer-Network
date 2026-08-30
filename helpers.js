@@ -4,10 +4,15 @@ import {
     erase,
     cabel,
     sounds,
+    animations
 } from "./elements.js"
 
     export function onSoundsMuted() {
       return sounds.checked
+    }
+
+    export function onAnimationsDisabled() {
+      return animations.checked
     }
     
     export function shadow_enabled(shadow) {

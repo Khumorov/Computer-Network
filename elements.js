@@ -13,6 +13,7 @@
     export const viewport = document.getElementById("viewport")
     export const iconsContainer = document.getElementById("icons-container")
     export const sounds = document.getElementById("sounds")
+    export const animations = document.getElementById("animations")
     export const settingsButton = document.querySelector("#settings-button")
     export const settingsPanel = document.querySelector("#settings-panel")
     export const clickSound = new Audio("./Sounds/Buttons/click.mp3")

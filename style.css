@@ -442,11 +442,13 @@ input:checked + .slider .svg-icon {
     transform: translateX(0px);
 }
 
-#sound-on {
+#sound-on,
+#animations-on {
     opacity: 1;
 }
 
-#sound-off {
+#sound-off,
+#animations-off {
     opacity: 0;
 }
 
@@ -456,4 +458,17 @@ input:checked + .slider .svg-icon #sound-on {
 
 input:checked + .slider .svg-icon #sound-off {
     opacity: 1;
+}
+
+input:checked + .slider .svg-icon #animations-on {
+    opacity: 0;
+}
+
+input:checked + .slider .svg-icon #animations-off {
+    opacity: 1;
+}
+
+.no-animations,
+.no-animations * {
+    transition: none !important;
 }

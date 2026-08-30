@@ -1,6 +1,6 @@
 import {
     cabel,
-    viewport
+    canvas
 } from "./elements.js"
 
 import {
@@ -8,8 +8,6 @@ import {
 } from "./storage.js"
 
 export const wires = []
-
-const svg_offset = 50000
 
 let svgLayer = null
 
@@ -19,7 +17,7 @@ function getSvgLayer() {
     svgLayer = document.createElementNS("http://www.w3.org/2000/svg", "svg")
     svgLayer.classList.add("cabelSvg")
 
-    viewport.appendChild(svgLayer)
+    canvas.appendChild(svgLayer)
     return svgLayer
 }
 
@@ -34,11 +32,11 @@ function createLine(startX, startY, endX, endY) {
     return line
 }
 
-function getNodeCenter(node, viewportRect) {
+function getNodeCenter(node, canvasRect) {
     const nodeRect = node.getBoundingClientRect()
     return {
-        x: nodeRect.left - viewportRect.left + nodeRect.width / 2 + svg_offset,
-        y: nodeRect.top - viewportRect.top + nodeRect.height / 2 + svg_offset
+        x: nodeRect.left - canvasRect.left + nodeRect.width / 2,
+        y: nodeRect.top - canvasRect.top + nodeRect.height / 2
     }
   }
 
@@ -48,17 +46,17 @@ export function enableWireDrag(node) {
 
         event.stopPropagation()
 
-        const viewportRect = viewport.getBoundingClientRect()
+        const canvasRect = canvas.getBoundingClientRect()
         const svg = getSvgLayer()
-        const start = getNodeCenter(node, viewportRect)
+        const start = getNodeCenter(node, canvasRect)
 
         const previewLine = createLine(start.x, start.y, start.x, start.y)
         previewLine.setAttribute("stroke-dasharray", "4")
         svg.appendChild(previewLine)
 
         function onMouseMove(upEvent) {
-            const x = upEvent.clientX - viewportRect.left + svg_offset
-            const y = upEvent.clientY - viewportRect.top + svg_offset
+            const x = upEvent.clientX - canvasRect.left
+            const y = upEvent.clientY - canvasRect.top
             previewLine.setAttribute("x2", x)
             previewLine.setAttribute("y2", y)
         }
@@ -83,11 +81,11 @@ export function enableWireDrag(node) {
 }
 
 export function createWire(fromNode, toNode) {
-    const viewportRect = viewport.getBoundingClientRect()
+    const canvasRect = canvas.getBoundingClientRect()
     const svg = getSvgLayer()
 
-    const start = getNodeCenter(fromNode, viewportRect)
-    const end = getNodeCenter(toNode, viewportRect)
+    const start = getNodeCenter(fromNode, canvasRect)
+    const end = getNodeCenter(toNode, canvasRect)
 
     const line = createLine(start.x, start.y, end.x, end.y)
     svg.appendChild(line)
@@ -97,27 +95,31 @@ export function createWire(fromNode, toNode) {
 }
 
 export function updateWiresForNode(node) {
-    const viewportRect = viewport.getBoundingClientRect()
+    const canvasRect = canvas.getBoundingClientRect()
 
     wires.forEach(wire => {
         if (wire.from === node) {
-            const start = getNodeCenter(node, viewportRect)
+            const start = getNodeCenter(node, canvasRect)
             wire.line.setAttribute("x1", start.x)
             wire.line.setAttribute("y1", start.y)
         }
         if (wire.to === node) {
-            const end = getNodeCenter(node, viewportRect)
+            const end = getNodeCenter(node, canvasRect)
             wire.line.setAttribute("x2", end.x)
             wire.line.setAttribute("y2", end.y)
         }
     })
 }
 
-window.addEventListener("resize", () => {
+export function updateAllWires() {
     wires.forEach(wire => {
         updateWiresForNode(wire.from)
         updateWiresForNode(wire.to)
     })
+}
+
+window.addEventListener("resize", () => {
+    updateAllWires()
 })
 
 export function removeWiresForNode(node) {

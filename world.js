@@ -10,7 +10,7 @@ export function setOffset(x, y, viewport) {
     }
 }
 
-export function enablePan(canvas, viewport) {
+export function enablePan(canvas, viewport, onPan) {
 
     function applyTransform() {
         viewport.style.transform = `translate(${offsetX}px, ${offsetY}px)`
@@ -34,6 +34,7 @@ export function enablePan(canvas, viewport) {
             offsetY = startOffsetY + deltaY
 
             applyTransform()
+            if (onPan) onPan()
 
         }
 

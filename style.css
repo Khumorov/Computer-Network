@@ -237,12 +237,13 @@ body {
 
 .cabelSvg {
     position: absolute;
-    top: -50000px;
-    left: -50000px;
-    width: 100000px;
-    height: 100000px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: -5;
+    overflow: visible;
 }
 
 #warning-window {

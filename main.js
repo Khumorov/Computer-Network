@@ -53,7 +53,8 @@ import {
 
 import {
     removeWiresForNode,
-    createWire
+    createWire,
+    updateAllWires
 } from "./wires.js"
 
 import {
@@ -121,7 +122,7 @@ function createSelect(option) {
 const select = createSelect(ethernetStandards)
 buildModePanel.insertBefore(select, buildButton)
 
-enablePan(canvas, viewport)
+enablePan(canvas, viewport, updateAllWires)
 
 viewport.addEventListener("world-pan_end", saveNetwork)
 

@@ -17,6 +17,12 @@ import {
     saveNetwork
 } from "./storage.js"
 
+import {
+    onSoundsMuted
+} from "./helpers.js"
+
+onSoundsMuted()
+
 let nodeIdCounter = 0
 
 export function enableDrag(element, canvas, type, label) {
@@ -126,11 +132,13 @@ export function createCanvasNode(iconSrc, x, y, canvas, type, label, activeId) {
             event.stopPropagation()
             removeWiresForNode(node)
             node.remove()
+            if (!onSoundsMuted()) {
             eraseSound.currentTime = 0
             eraseSound.play()
             renumberType(type)
             saveNetwork()
         }
+    }
     })
 
     enableWireDrag(node, canvas)

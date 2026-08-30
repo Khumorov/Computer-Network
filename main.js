@@ -17,7 +17,8 @@ import {
     canvas,
     viewport,
     settingsButton,
-    settingsPanel
+    settingsPanel,
+    sounds
 } from "./elements.js"
 
 import {
@@ -32,7 +33,8 @@ import {
     cabel_enabled,
     cabel_disabled,
     warning_window_enabled,
-    warning_window_disabled
+    warning_window_disabled,
+    onSoundsMuted
 } from "./helpers.js"
 
 import {
@@ -60,26 +62,28 @@ import {
     clearSavedNetwork
 } from "./storage.js"
 
+onSoundsMuted()
+
 function createIcon(iconPath, text, id) {
-const block = document.createElement("div")
-block.className = `element`
-block.id = id
+    const block = document.createElement("div")
+    block.className = `element`
+    block.id = id
 
-const blockIcon = document.createElement("span")
-blockIcon.className = `icon-window`
+    const blockIcon = document.createElement("span")
+    blockIcon.className = `icon-window`
 
-const blockImg = document.createElement("img")
-blockImg.src = iconPath
+    const blockImg = document.createElement("img")
+    blockImg.src = iconPath
 
-const blockText = document.createElement("span")
-blockText.className = `text`
-blockText.textContent = text
+    const blockText = document.createElement("span")
+    blockText.className = `text`
+    blockText.textContent = text
 
-blockIcon.appendChild(blockImg)
-block.appendChild(blockIcon)
-block.appendChild(blockText)
+    blockIcon.appendChild(blockImg)
+    block.appendChild(blockIcon)
+    block.appendChild(blockText)
 
-return block
+    return block
 
 }
 
@@ -182,8 +186,10 @@ function clearAllCanvas() {
 
     clearSavedNetwork()
 
+    if (!onSoundsMuted()) {
     pageFlipSound.currentTime = 0
     pageFlipSound.play()
+    }
 }
 
 function onChoiceYesClick(event) {
@@ -236,7 +242,6 @@ newCanvas.addEventListener("click", onNewCanvasClick)
 choiceYes.addEventListener("click", onChoiceYesClick)
 choiceNo.addEventListener("click", onChoiceNoClick)
 settingsButton.addEventListener("click", toggleButton)
-
 settingsPanel.addEventListener("transitionend", () => {
     if (!settingsPanel.classList.contains("open")) {
         settingsButton.classList.remove("settings-open")

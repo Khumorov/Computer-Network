@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bitcount+Single:wght@100..900&family=Rubik+Mono+One&family=Sekuya&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bitcount+Single:wght@100..900&family=Inter:wght@400;500;600;700&family=Rubik+Mono+One&family=Sekuya&display=swap" rel="stylesheet">
 <title>Network</title>
 </head>
 <body>
@@ -19,6 +20,18 @@
     <div id="settings-panel">
         <div>
         <span class="settings-title">Настройки</span>
+        </div>
+        <div class="settings-panel-block">
+            <span>Звуки</span>
+            <label class="switch">
+            <input id="sounds" type="checkbox">
+            <span class="slider">
+            <span class="svg-icon">
+                <img id="sound-on" src="./Images/SVG/sound-on.svg">
+                <img id="sound-off" src="./Images/SVG/sound-off.svg">
+            </span>
+            </span>
+            </label>
         </div>
     </div>
     <div id="warning-window">
@@ -44,7 +57,6 @@
             <span class="title-network">NETWORK</span>
         </div>
         <div id="icons-container">
-
         </div>
         <div id="buttons-container">
             <button id="build-button-mode" class="buttons-style">Построить</button>

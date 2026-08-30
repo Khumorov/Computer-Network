@@ -9,7 +9,7 @@ import {
 
 export const wires = []
 
-const svg_offset = 5000
+const svg_offset = 50000
 
 let svgLayer = null
 

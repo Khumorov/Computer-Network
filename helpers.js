@@ -2,8 +2,13 @@ import {
     clickSound,
     completeSound,
     erase,
-    cabel
+    cabel,
+    sounds,
 } from "./elements.js"
+
+    export function onSoundsMuted() {
+      return sounds.checked
+    }
     
     export function shadow_enabled(shadow) {
       shadow.style.opacity = 1
@@ -64,11 +69,15 @@ import {
     }
 
     export function playClickSound() {
+      if (!onSoundsMuted()) {
         clickSound.currentTime = 0
         clickSound.play()
+      }
     }
 
     export function playCompleteSound() {
+      if (!onSoundsMuted()) {
         completeSound.currentTime = 0
         completeSound.play()
+      }
     }

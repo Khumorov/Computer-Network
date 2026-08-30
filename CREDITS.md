@@ -33,3 +33,29 @@
 ## Images
 
 - Project images/icons — AI-generated for this project.
+
+## SVG
+
+### github.svg
+
+- Source: https://www.svgrepo.com/svg/372858/github-alt
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo
+
+## sound-on.svg
+
+- Source: https://www.svgrepo.com/svg/378708/sound-on
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo
+
+## sound-off.svg
+
+- Source: https://www.svgrepo.com/svg/378707/sound-off
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo

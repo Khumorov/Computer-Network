@@ -156,10 +156,10 @@ body {
     flex-direction: column;
     padding: 20px 20px;
     gap: 10px;
-    width: 250px;
+    width: 300px;
     background: rgb(255, 255, 255);
     border: solid black 1px;
-    border-radius: 2px;
+    border-radius: 5px;
     pointer-events: none;
     opacity: 0;
 }
@@ -237,10 +237,10 @@ body {
 
 .cabelSvg {
     position: absolute;
-    top: -5000px;
-    left: -5000px;
-    width: 10000px;
-    height: 10000px;
+    top: -50000px;
+    left: -50000px;
+    width: 100000px;
+    height: 100000px;
     pointer-events: none;
     z-index: -5;
 }
@@ -248,7 +248,7 @@ body {
 #warning-window {
     display: flex;
     position: fixed;
-    width: 350px;
+    width: 450px;
     left: 50%;
     top: 50%;
     gap: 5px;
@@ -262,7 +262,7 @@ body {
     pointer-events: none;
     opacity: 0;
     border: solid black 1px;
-    border-radius: 2px;
+    border-radius: 5px;
     z-index: 30;
 }
 
@@ -368,12 +368,91 @@ body {
 }
 
 .settings-title {
-    position: fixed;
     display: flex;
     justify-content: left;
     align-items: center;
     width: 100%;
     padding: 12px 10px;
-    font-family: "Manrope", sans-serif;
-    font-weight: 600;
+    font-family: Inter;
+    font-weight: 700;
+    border-bottom: solid black 1px;
+}
+
+.settings-panel-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    font-weight: 500;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 35px;
+    height: 20px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(4, 152, 250);
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.svg-icon {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: rgb(255, 255, 255);
+    transition: 0.4s;
+    border-radius: 50%;
+    transform: translateX(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg-icon img {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+input:checked + .slider {
+    background-color: rgb(180, 180, 183);
+}
+
+input:checked + .slider .svg-icon {
+    transform: translateX(0px);
+}
+
+#sound-on {
+    opacity: 1;
+}
+
+#sound-off {
+    opacity: 0;
+}
+
+input:checked + .slider .svg-icon #sound-on {
+    opacity: 0;
+}
+
+input:checked + .slider .svg-icon #sound-off {
+    opacity: 1;
 }

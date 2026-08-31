@@ -44,7 +44,7 @@
 - Attribution: not required
 - Uploader: SVG Repo
 
-## sound-on.svg
+### sound-on.svg
 
 - Source: https://www.svgrepo.com/svg/378708/sound-on
 
@@ -52,7 +52,7 @@
 - Attribution: not required
 - Uploader: SVG Repo
 
-## sound-off.svg
+### sound-off.svg
 
 - Source: https://www.svgrepo.com/svg/378707/sound-off
 
@@ -60,7 +60,7 @@
 - Attribution: not required
 - Uploader: SVG Repo
 
-## animations-on.svg
+### animations-on.svg
 
 - Source: https://www.svgrepo.com/svg/500138/animation-play
 
@@ -68,7 +68,7 @@
 - Attribution: not required
 - Uploader: SVG Repo
 
-## animations-off.svg
+### animations-off.svg
 
 - Source: https://www.svgrepo.com/svg/500140/animation-pause
 

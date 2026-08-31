@@ -62,11 +62,20 @@ import {
 import {
     saveNetwork,
     loadNetwork,
-    clearSavedNetwork
+    clearSavedNetwork,
+    saveSettings,
+    loadSettings
 } from "./storage.js"
+
+import {
+    downloadImage
+} from "./download.js"
 
 onSoundsMuted()
 onAnimationsDisabled()
+loadSettings()
+
+document.body.classList.toggle("no-animations", onAnimationsDisabled())
 
 function createIcon(iconPath, text, id) {
     const block = document.createElement("div")
@@ -128,7 +137,6 @@ buildModePanel.insertBefore(select, buildButton)
 enablePan(canvas, viewport, updateAllWires)
 
 viewport.addEventListener("world-pan_end", saveNetwork)
-
 loadNetwork(createCanvasNode, createWire)
 
 function autoBuild() {
@@ -211,6 +219,8 @@ function onChoiceNoClick() {
 
 function onDownloadClick() {
     playClickSound()
+    updateAllWires()
+    downloadImage()
 }
 
 function shadowCloseWindows() {
@@ -255,10 +265,12 @@ settingsPanel.addEventListener("transitionend", () => {
 })
 
 sounds.addEventListener("change", () => {
+    saveSettings()
     playClickSound()
 })
 
 animations.addEventListener("change", () => {
+    saveSettings()
     playClickSound()
     document.body.classList.toggle("no-animations", onAnimationsDisabled())
 })

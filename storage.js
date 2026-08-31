@@ -1,5 +1,7 @@
 import {
-    viewport
+    viewport,
+    sounds,
+    animations
 } from "./elements.js"
 
 import {
@@ -103,4 +105,32 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
         })
      })
    }
+ }
+
+
+ const SETTINGS_STORAGE = "settings"
+
+ export function saveSettings() {
+    const settings = {
+
+        sound: sounds.checked,
+        animations: animations.checked
+
+    }
+    localStorage.setItem(SETTINGS_STORAGE, JSON.stringify(settings))
+ }
+
+ export function loadSettings() {
+    const savedData = localStorage.getItem(SETTINGS_STORAGE)
+    if (!savedData) return
+
+    let saved
+    try {
+        saved = JSON.parse(savedData)
+    } catch {
+        return
+    }
+
+    sounds.checked = saved.sound
+    animations.checked = saved.animations
  }

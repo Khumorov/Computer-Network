@@ -27,7 +27,7 @@ function getNetworkBounds() {
         maxY = Math.max(maxY, top + node.offsetHeight)
     })
 
-    const padding = 40
+    const padding = 80
     return {
         x: minX - padding,
         y: minY - padding,
@@ -64,7 +64,7 @@ export async function downloadImage() {
     context.fillRect(0, 0, bounds.width, bounds.height)
 
     context.strokeStyle = "black"
-    context.lineWidth = 2
+    context.lineWidth = 4
     wires.forEach(wire => {
         context.beginPath()
         context.moveTo(
@@ -96,13 +96,13 @@ export async function downloadImage() {
                 height: imgRect.height,
                 labelText: label ? label.textContent : "",
                 labelX: (imgRect.left - canvasRect.left - bounds.x - offsetX) + imgRect.width / 2,
-                labelY: (imgRect.top - canvasRect.top - bounds.y - offsetY) + imgRect.height + 10
+                labelY: (imgRect.top - canvasRect.top - bounds.y - offsetY) + imgRect.height + 20
             }))
         })
     )
 
     context.fillStyle = "black"
-    context.font = "10px sans-serif"
+    context.font = "20px sans-serif"
     context.textAlign = "center"
 
     images.forEach(item => {

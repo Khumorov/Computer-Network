@@ -28,7 +28,7 @@ function createLine(startX, startY, endX, endY) {
     line.setAttribute("x2", endX)
     line.setAttribute("y2", endY)
     line.setAttribute("stroke", "black")
-    line.setAttribute("stroke-width", "2")
+    line.setAttribute("stroke-width", "4")
     return line
 }
 
@@ -51,7 +51,7 @@ export function enableWireDrag(node) {
         const start = getNodeCenter(node, canvasRect)
 
         const previewLine = createLine(start.x, start.y, start.x, start.y)
-        previewLine.setAttribute("stroke-dasharray", "4")
+        previewLine.setAttribute("stroke-dasharray", "8")
         svg.appendChild(previewLine)
 
         function onMouseMove(upEvent) {

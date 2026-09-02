@@ -5,6 +5,7 @@ import {
     eraseSound,
     pageFlipSound,
     viewport,
+    iconText
 } from "./elements.js"
 
 import {
@@ -18,7 +19,8 @@ import {
 } from "./storage.js"
 
 import {
-    onSoundsMuted
+    onSoundsMuted,
+    onIconTextDisabled
 } from "./helpers.js"
 
 onSoundsMuted()
@@ -84,12 +86,27 @@ export function enableDrag(element, canvas, type, label) {
 export function renumberType(type) {
     const sameTypeNodes = viewport.querySelectorAll(`.canvas-node[data-type="${type}"]`)
     sameTypeNodes.forEach((node, index) => {
-        const label = node.querySelector(".node-label")
-        if (label) {
+        let label = node.querySelector(".node-label")
+
+        if (onIconTextDisabled()) {
+            if (!label) {
+                label = document.createElement("div")
+                label.className = "node-label"
+                node.appendChild(label)
+            }
             label.textContent = `${node.dataset.label} ${index + 1}`
-    }
-  })
+        } else if (label) {
+            label.remove()
+        }
+    })
 }
+
+    export function renumberAllTypes() {
+        const types = new Set(Array.from(viewport.querySelectorAll(".canvas-node"))
+        .map((node) => node.dataset.type)
+    )
+    types.forEach((type) => renumberType(type))
+    }
 
 export function createCanvasNode(iconSrc, x, y, canvas, type, label, activeId) {
     const node = document.createElement("div")

@@ -19,7 +19,8 @@ import {
     settingsButton,
     settingsPanel,
     sounds,
-    animations
+    animations,
+    iconText
 } from "./elements.js"
 
 import {
@@ -46,7 +47,8 @@ import {
 
 import {
     enableDrag,
-    createCanvasNode
+    createCanvasNode,
+    renumberAllTypes
 } from "./drag.js"
 
 import {
@@ -273,6 +275,13 @@ animations.addEventListener("change", () => {
     saveSettings()
     playClickSound()
     document.body.classList.toggle("no-animations", onAnimationsDisabled())
+})
+
+iconText.addEventListener("change", () => {
+    saveSettings()
+    playClickSound()
+    renumberAllTypes()
+    updateAllWires()
 })
 
 // So it's gonna be forever

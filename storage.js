@@ -1,7 +1,8 @@
 import {
     viewport,
     sounds,
-    animations
+    animations,
+    iconText
 } from "./elements.js"
 
 import {
@@ -114,7 +115,8 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
     const settings = {
 
         sound: sounds.checked,
-        animations: animations.checked
+        animations: animations.checked,
+        iconText: iconText.checked
 
     }
     localStorage.setItem(SETTINGS_STORAGE, JSON.stringify(settings))
@@ -133,4 +135,5 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
 
     sounds.checked = saved.sound
     animations.checked = saved.animations
+    iconText.checked = saved.iconText
  }

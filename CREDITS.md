@@ -75,3 +75,19 @@
 - License: CC0
 - Attribution: not required
 - Uploader: SVG Repo
+
+### iconText-on.svg
+
+- Source: https://www.svgrepo.com/svg/473947/eye-open
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo
+
+### iconText-off.svg
+
+- Source: https://www.svgrepo.com/svg/473946/eye-close
+
+- License: CC0
+- Attribution: not required
+- Uploader: SVG Repo

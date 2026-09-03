@@ -95,18 +95,29 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
     })
 
     if (saved.wires) {
-        requestAnimationFrame(() => {
-        saved.wires.forEach(savedWire => {
-            const fromNode = nodesById[savedWire.fromId]
-            const toNode = nodesById[savedWire.toId]
+        const images = Object.values(nodesById)
+        .map(node => node.querySelector("img"))
+        .filter(img => img && !img.complete)
 
-            if (fromNode && toNode) {
-                createWireFunction(fromNode, toNode)
-            }
+        const waitForImages = images.length
+        ? Promise.all(images.map(img => new Promise(resolve => {
+            img.addEventListener("load", resolve, { once: true })
+            img.addEventListener("error", resolve, { once: true })
+        })))
+        :Promise.resolve()
+
+        waitForImages.then(() => {
+            saved.wires.forEach(savedWire => {
+                const fromNode = nodesById[savedWire.fromId]
+                const toNode = nodesById[savedWire.toId]
+
+                if (fromNode && toNode) {
+                    createWireFunction(fromNode, toNode)
+                }
+            })
         })
-     })
-   }
- }
+    }
+}
 
 
  const SETTINGS_STORAGE = "settings"

@@ -1,6 +1,6 @@
 import {
     cabel,
-    canvas,
+    viewport,
     erase,
     eraseSound
 } from "./elements.js"
@@ -19,7 +19,7 @@ function getSvgLayer() {
     svgLayer = document.createElementNS("http://www.w3.org/2000/svg", "svg")
     svgLayer.classList.add("cabelSvg")
 
-    canvas.appendChild(svgLayer)
+    viewport.appendChild(svgLayer)
     return svgLayer
 }
 
@@ -45,19 +45,19 @@ function createHitboxLine(startX, startY, endX, endY) {
     return hitboxLine
 }
 
-function getNodeCenter(node, canvasRect) {
+function getNodeCenter(node, viewportRect) {
     const nodeRect = node.getBoundingClientRect()
     return {
-        x: nodeRect.left - canvasRect.left + nodeRect.width / 2,
-        y: nodeRect.top - canvasRect.top + nodeRect.height / 2
+        x: nodeRect.left - viewportRect.left + nodeRect.width / 2,
+        y: nodeRect.top - viewportRect.top + nodeRect.height / 2
     }
   }
 
   const NODE_TRIM_RADIUS = 50
 
-  function getTrimmedEndpoints(fromNode, toNode, canvasRect) {
-    const start = getNodeCenter(fromNode, canvasRect)
-    const end = getNodeCenter(toNode, canvasRect)
+  function getTrimmedEndpoints(fromNode, toNode, viewportRect) {
+    const start = getNodeCenter(fromNode, viewportRect)
+    const end = getNodeCenter(toNode, viewportRect)
 
     const deltaX = end.x - start.x
     const deltaY = end.y - start.y
@@ -87,17 +87,17 @@ export function enableWireDrag(node) {
 
         event.stopPropagation()
 
-        const canvasRect = canvas.getBoundingClientRect()
+        const viewportRect = viewport.getBoundingClientRect()
         const svg = getSvgLayer()
-        const start = getNodeCenter(node, canvasRect)
+        const start = getNodeCenter(node, viewportRect)
 
         const previewLine = createLine(start.x, start.y, start.x, start.y)
         previewLine.setAttribute("stroke-dasharray", "8")
         svg.appendChild(previewLine)
 
         function onMouseMove(upEvent) {
-            const x = upEvent.clientX - canvasRect.left
-            const y = upEvent.clientY - canvasRect.top
+            const x = upEvent.clientX - viewportRect.left
+            const y = upEvent.clientY - viewportRect.top
             previewLine.setAttribute("x2", x)
             previewLine.setAttribute("y2", y)
         }
@@ -121,16 +121,25 @@ export function enableWireDrag(node) {
     })
 }
 
+function wireExist(nodeA, nodeB) {
+    return wires.some(wire =>
+    (wire.from === nodeA && wire.to === nodeB) ||
+    (wire.from === nodeB && wire.to === nodeA)
+    )
+}
+
 export function createWire(fromNode, toNode) {
-    const canvasRect = canvas.getBoundingClientRect()
+    if (fromNode === toNode) return
+    if (wireExist(fromNode, toNode)) return
+    const viewportRect = viewport.getBoundingClientRect()
     const svg = getSvgLayer()
 
-    const start = getNodeCenter(fromNode, canvasRect)
-    const end = getNodeCenter(toNode, canvasRect)
+    const start = getNodeCenter(fromNode, viewportRect)
+    const end = getNodeCenter(toNode, viewportRect)
 
     const line = createLine(start.x, start.y, end.x, end.y)
 
-    const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(fromNode, toNode, canvasRect)
+    const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(fromNode, toNode, viewportRect)
     const hitboxLine = createHitboxLine(hitboxStart.x, hitboxStart.y, hitboxEnd.x, hitboxEnd.y)
 
     svg.appendChild(line)
@@ -158,20 +167,20 @@ export function createWire(fromNode, toNode) {
 }
 
 export function updateWiresForNode(node) {
-    const canvasRect = canvas.getBoundingClientRect()
+    const viewportRect = viewport.getBoundingClientRect()
 
     wires.forEach(wire => {
         if (wire.from === node || wire.to === node) {
 
-            const start = getNodeCenter(wire.from, canvasRect)
-            const end = getNodeCenter(wire.to, canvasRect)
+            const start = getNodeCenter(wire.from, viewportRect)
+            const end = getNodeCenter(wire.to, viewportRect)
 
             wire.line.setAttribute("x1", start.x)
             wire.line.setAttribute("y1", start.y)
             wire.line.setAttribute("x2", end.x)
             wire.line.setAttribute("y2", end.y)
 
-            const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(wire.from, wire.to, canvasRect)
+            const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(wire.from, wire.to, viewportRect)
 
             wire.hitboxLine.setAttribute("x1", hitboxStart.x)
             wire.hitboxLine.setAttribute("y1", hitboxStart.y)
@@ -183,9 +192,25 @@ export function updateWiresForNode(node) {
 }
 
 export function updateAllWires() {
+    const viewportRect = viewport.getBoundingClientRect()
+
     wires.forEach(wire => {
-        updateWiresForNode(wire.from)
-        updateWiresForNode(wire.to)
+
+        const start = getNodeCenter(wire.from, viewportRect)
+        const end = getNodeCenter(wire.to, viewportRect)
+
+        wire.line.setAttribute("x1", start.x)
+        wire.line.setAttribute("y1", start.y)
+        wire.line.setAttribute("x2", end.x)
+        wire.line.setAttribute("y2", end.y)
+
+        const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(wire.from, wire.to, viewportRect)
+
+        wire.hitboxLine.setAttribute("x1", hitboxStart.x)
+        wire.hitboxLine.setAttribute("y1", hitboxStart.y)
+        wire.hitboxLine.setAttribute("x2", hitboxEnd.x)
+        wire.hitboxLine.setAttribute("y2", hitboxEnd.y)
+
     })
 }
 

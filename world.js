@@ -34,7 +34,6 @@ export function enablePan(canvas, viewport, onPan) {
             offsetY = startOffsetY + deltaY
 
             applyTransform()
-            if (onPan) onPan()
 
         }
 
@@ -42,6 +41,7 @@ export function enablePan(canvas, viewport, onPan) {
             canvas.classList.remove("world")
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
+            if (onPan) onPan()
             viewport.dispatchEvent(new CustomEvent("world-pan_end"))
         }
 

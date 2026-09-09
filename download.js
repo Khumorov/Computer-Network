@@ -68,13 +68,13 @@ export async function downloadImage() {
     wires.forEach(wire => {
         context.beginPath()
         context.moveTo(
-            wire.line.x1.baseVal.value - bounds.x - offsetX,
-            wire.line.y1.baseVal.value - bounds.y - offsetY
+            wire.line.x1.baseVal.value - bounds.x,
+            wire.line.y1.baseVal.value - bounds.y
         )
 
         context.lineTo(
-            wire.line.x2.baseVal.value - bounds.x - offsetX,
-            wire.line.y2.baseVal.value - bounds.y - offsetY
+            wire.line.x2.baseVal.value - bounds.x,
+            wire.line.y2.baseVal.value - bounds.y
         )
         context.stroke()
     })

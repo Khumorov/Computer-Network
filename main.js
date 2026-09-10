@@ -282,6 +282,7 @@ iconText.addEventListener("change", () => {
     playClickSound()
     renumberAllTypes()
     updateAllWires()
+    requestAnimationFrame(updateAllWires)
 })
 
 // So it's gonna be forever

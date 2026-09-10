@@ -317,6 +317,8 @@ export function updateAllWires() {
         wire.hitboxLine.setAttribute("x2", hitboxEnd.x)
         wire.hitboxLine.setAttribute("y2", hitboxEnd.y)
 
+        positionWireLabels(wire, viewportRect)
+
     })
 }
 

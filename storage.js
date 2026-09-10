@@ -28,18 +28,20 @@ function findIcon(type) {
 function getSavedNetwork() {
     const nodes = Array.from(viewport.querySelectorAll(".canvas-node")).map(node => ({
     
-        id:    node.dataset.id,
-        type:  node.dataset.type,
-        label: node.dataset.label,
-        x:     parseFloat(node.style.left),
-        y:     parseFloat(node.style.top)
+        id:     node.dataset.id,
+        type:   node.dataset.type,
+        label:  node.dataset.label,
+        x:      parseFloat(node.style.left),
+        y:      parseFloat(node.style.top)
 
 }))
 
 const savedWires = wires.map(wire => ({
 
-    fromId: wire.from.dataset.id,
-    toId:   wire.to.dataset.id
+    fromId:       wire.from.dataset.id,
+    toId:         wire.to.dataset.id,
+    titleTop:     wire.titleTop || "",
+    titleBottom:  wire.titleBottom || ""
 
 }))
 
@@ -112,7 +114,7 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
                 const toNode = nodesById[savedWire.toId]
 
                 if (fromNode && toNode) {
-                    createWireFunction(fromNode, toNode)
+                    createWireFunction(fromNode, toNode, savedWire.titleTop || "", savedWire.titleBottom || "")
                 }
             })
         })

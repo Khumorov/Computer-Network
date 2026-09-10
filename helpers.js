@@ -56,6 +56,18 @@ import {
       warningWindow.style.pointerEvents = "none"
     }
 
+    export function wire_window_enabled(wireTitleWindow) {
+      wireTitleWindow.style.opacity = 1
+      wireTitleWindow.style.transition = "0.5s ease"
+      wireTitleWindow.style.pointerEvents = "all"
+    }
+
+    export function wire_window_disabled(wireTitleWindow) {
+      wireTitleWindow.style.opacity = 0
+      wireTitleWindow.style.transition = "0.5s ease"
+      wireTitleWindow.style.pointerEvents = "none"
+    }
+
     export function erase_enabled(erase) {
       erase.style.background = "rgb(206, 7, 7)"
       erase.style.color = "white"
@@ -91,3 +103,46 @@ import {
         completeSound.play()
       }
     }
+
+export function getWireLabelAngle(start, end) {
+    let angle = Math.atan2(end.y - start.y, end.x - start.x) * (180 / Math.PI)
+
+    if (angle > 90 || angle < -90) {
+        angle += 180
+    }
+    return angle
+}
+
+export function getPerpendicularUnit(start, end) {
+    const deltaX = end.x - start.x
+    const deltaY = end.y - start.y
+    const length = Math.hypot(deltaX, deltaY) || 1
+
+    let perpendicularX = -deltaY / length
+    let perpendicularY = deltaX / length
+
+    if (perpendicularY > 0) {
+        perpendicularX = -perpendicularX
+        perpendicularY = -perpendicularY
+    }
+    return {
+        x: perpendicularX,
+        y: perpendicularY
+    }
+}
+
+export function getWireLabelPositions(start, end, offset = 10, gap = 12) {
+    const middleX = (start.x + end.x) / 2
+    const middleY = (start.y + end.y) / 2
+    const angle = getWireLabelAngle(start, end)
+    const perpendicular = getPerpendicularUnit(start, end)
+
+    const topX = middleX + perpendicular.x * offset
+    const topY = middleY + perpendicular.y * offset
+
+    const bottomOffset = offset + gap
+    const bottomX = middleX - perpendicular.x * bottomOffset
+    const bottomY = middleY - perpendicular.y * bottomOffset
+
+    return { angle, top: { x: topX, y: topY }, bottom: { x: bottomX, y: bottomY } }
+}

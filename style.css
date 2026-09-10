@@ -123,6 +123,7 @@ body {
 #build-button:active,
 #build:active,
 #new-canvas:active,
+#wire-window-save-button:active,
 .choice-button:active {
     background: black;
     color: white;
@@ -144,7 +145,8 @@ body {
     gap: 4px;
 }
 
-#build-mode {
+#build-mode,
+#wire-title-window {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -489,4 +491,12 @@ input:checked + .slider .svg-icon #iconText-off {
 
 .labels-hidden .node-label {
     display: none;
+}
+
+.wire-title-window-input {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    border: solid black 1px;
+    border-radius: 5px;
 }

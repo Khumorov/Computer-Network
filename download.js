@@ -11,6 +11,10 @@ import {
     canvas
 } from "./elements.js"
 
+import {
+    getWireLabelPositions
+} from "./helpers.js"
+
 function getNetworkBounds() {
     const nodes = document.querySelectorAll(".canvas-node")
     if (nodes.length === 0) return null
@@ -77,6 +81,44 @@ export async function downloadImage() {
             wire.line.y2.baseVal.value - bounds.y
         )
         context.stroke()
+
+        if (!wire.titleTop && !wire.titleBottom) return
+
+        const start = {
+            x: wire.line.x1.baseVal.value - bounds.x,
+            y: wire.line.y1.baseVal.value - bounds.y
+        }
+
+        const end = {
+            x: wire.line.x2.baseVal.value - bounds.x,
+            y: wire.line.y2.baseVal.value - bounds.y
+        }
+
+        const { angle, top, bottom } = getWireLabelPositions(start, end)
+        const radians = angle * (Math.PI / 180)
+
+        context.save()
+        context.fillStyle = "black"
+        context.font = "14px sans-serif"
+        context.textAlign = "center"
+        context.textBaseline = "alphabetic"
+
+        if (wire.titleTop) {
+            context.save()
+            context.translate(top.x, top.y)
+            context.rotate(radians)
+            context.fillText(wire.titleTop, 0, 0)
+            context.restore()
+        }
+
+        if (wire.titleBottom) {
+            context.save()
+            context.translate(bottom.x, bottom.y)
+            context.rotate(radians)
+            context.fillText(wire.titleBottom, 0, 0)
+            context.restore()
+        }
+        context.restore()
     })
 
     const nodes = document.querySelectorAll(".canvas-node")

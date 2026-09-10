@@ -1,17 +1,36 @@
+// Короче, код сложнее читать стало, добавлю немного комментариев
+
 import {
     cabel,
     viewport,
     erase,
-    eraseSound
+    eraseSound,
+    shadow,
+    wireTitleWindow,
+    wireWindowFirstInput,
+    wireWindowSecondInput,
+    wireWindowSaveButton
 } from "./elements.js"
+
+import {
+    shadow_enabled,
+    shadow_disabled,
+    wire_window_enabled,
+    wire_window_disabled
+} from "./helpers.js"
 
 import {
     saveNetwork
 } from "./storage.js"
 
+import {
+    getWireLabelPositions
+} from "./helpers.js"
+
 export const wires = []
 
 let svgLayer = null
+let activeWireForTitle = null
 
 function getSvgLayer() {
     if (svgLayer) return svgLayer
@@ -21,6 +40,52 @@ function getSvgLayer() {
 
     viewport.appendChild(svgLayer)
     return svgLayer
+}
+
+function closeWireTitleWindow() {
+    wire_window_disabled(wireTitleWindow)
+    shadow_disabled(shadow)
+}
+
+function shadowCloseWindows() {
+    wire_window_disabled(wireTitleWindow)
+    shadow_disabled(shadow)
+}
+
+function openWireTitleWindow() {
+    wire_window_enabled(wireTitleWindow)
+    shadow_enabled(shadow)
+}
+
+function shadowOpenWindow() {
+    wire_window_enabled(wireTitleWindow)
+    shadow_enabled(shadow)
+}
+
+function onWireWindowSaveButtonClick() {
+
+    if (activeWireForTitle) {
+        activeWireForTitle.titleTop = wireWindowFirstInput.value
+        activeWireForTitle.titleBottom = wireWindowSecondInput.value
+        activeWireForTitle.labelTop.textContent = activeWireForTitle.titleTop
+        activeWireForTitle.labelBottom.textContent = activeWireForTitle.titleBottom
+        saveNetwork()
+    }
+
+    activeWireForTitle = null
+    shadowCloseWindows()
+    closeWireTitleWindow()
+}
+
+function createWireLabel() {
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+    text.setAttribute("text-anchor", "middle")
+    text.setAttribute("font-size", "14")
+    text.setAttribute("font-family", "sans-serif")
+    text.setAttribute("fill", "black")
+    text.style.userSelect = "none"
+    text.style.pointerEvents = "none"
+    return text
 }
 
 function createLine(startX, startY, endX, endY) {
@@ -81,6 +146,21 @@ function getNodeCenter(node, viewportRect) {
     }
 }
 
+function positionWireLabels(wire, viewportRect) {
+    const start = getNodeCenter(wire.from, viewportRect)
+    const end = getNodeCenter(wire.to, viewportRect)
+
+    const { angle, top, bottom } = getWireLabelPositions(start, end)
+
+    wire.labelTop.setAttribute("x", top.x)
+    wire.labelTop.setAttribute("y", top.y)
+    wire.labelTop.setAttribute("transform", `rotate(${angle}, ${top.x}, ${top.y})`)
+
+    wire.labelBottom.setAttribute("x", bottom.x)
+    wire.labelBottom.setAttribute("y", bottom.y)
+    wire.labelBottom.setAttribute("transform", `rotate(${angle}, ${bottom.x}, ${bottom.y})`)
+}
+
 export function enableWireDrag(node) {
     node.addEventListener("mousedown", (event) => {
         if (!cabel.classList.contains("active")) return
@@ -128,7 +208,7 @@ function wireExist(nodeA, nodeB) {
     )
 }
 
-export function createWire(fromNode, toNode) {
+export function createWire(fromNode, toNode, titleTop = "", titleBottom = "") {
     if (fromNode === toNode) return
     if (wireExist(fromNode, toNode)) return
     const viewportRect = viewport.getBoundingClientRect()
@@ -142,8 +222,15 @@ export function createWire(fromNode, toNode) {
     const { start: hitboxStart, end: hitboxEnd } = getTrimmedEndpoints(fromNode, toNode, viewportRect)
     const hitboxLine = createHitboxLine(hitboxStart.x, hitboxStart.y, hitboxEnd.x, hitboxEnd.y)
 
+    const labelTop = createWireLabel()
+    const labelBottom = createWireLabel()
+    labelTop.textContent = titleTop
+    labelBottom.textContent = titleBottom
+
     svg.appendChild(line)
     svg.appendChild(hitboxLine)
+    svg.appendChild(labelTop)
+    svg.appendChild(labelBottom)
 
     hitboxLine.style.pointerEvents = "stroke"
     hitboxLine.style.cursor = "pointer"
@@ -159,10 +246,27 @@ export function createWire(fromNode, toNode) {
         if (index !== -1) wires.splice(index, 1)
         updateAllWires()
         saveNetwork()
+        } else {
+            activeWireForTitle = wire
+            wireWindowFirstInput.value = wire.titleTop
+            wireWindowSecondInput.value = wire.titleBottom
+            openWireTitleWindow()
         }
     })
 
-    wires.push({ line, hitboxLine, from: fromNode, to: toNode })
+    const wire = {
+        line,
+        hitboxLine,
+        labelTop,
+        labelBottom,
+        from: fromNode,
+        to: toNode,
+        titleTop,
+        titleBottom
+    }
+
+    positionWireLabels(wire, viewportRect)
+    wires.push(wire)
     saveNetwork()
 }
 
@@ -186,6 +290,8 @@ export function updateWiresForNode(node) {
             wire.hitboxLine.setAttribute("y1", hitboxStart.y)
             wire.hitboxLine.setAttribute("x2", hitboxEnd.x)
             wire.hitboxLine.setAttribute("y2", hitboxEnd.y)
+
+            positionWireLabels(wire, viewportRect)
 
         }
     })
@@ -223,8 +329,14 @@ export function removeWiresForNode(node) {
         if (wires[i].from === node || wires[i].to === node) {
             wires[i].line.remove()
             wires[i].hitboxLine.remove()
+            wires[i].labelTop.remove()
+            wires[i].labelBottom.remove()
             wires.splice(i, 1)
         }
     }
   saveNetwork()
 }
+
+shadow.addEventListener("click", shadowCloseWindows)
+
+wireWindowSaveButton.addEventListener("click", onWireWindowSaveButtonClick)

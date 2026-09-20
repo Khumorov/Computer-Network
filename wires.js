@@ -1,5 +1,3 @@
-// Короче, код сложнее читать стало, добавлю немного комментариев
-
 import {
     cabel,
     viewport,
@@ -13,6 +11,8 @@ import {
 } from "./elements.js"
 
 import {
+    getWireLabelPositions,
+    playClickSound,
     shadow_enabled,
     shadow_disabled,
     wire_window_enabled,
@@ -22,10 +22,6 @@ import {
 import {
     saveNetwork
 } from "./storage.js"
-
-import {
-    getWireLabelPositions
-} from "./helpers.js"
 
 export const wires = []
 
@@ -69,6 +65,7 @@ function onWireWindowSaveButtonClick() {
         activeWireForTitle.titleBottom = wireWindowSecondInput.value
         activeWireForTitle.labelTop.textContent = activeWireForTitle.titleTop
         activeWireForTitle.labelBottom.textContent = activeWireForTitle.titleBottom
+        playClickSound()
         saveNetwork()
     }
 

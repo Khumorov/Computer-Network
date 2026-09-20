@@ -19,6 +19,7 @@ import {
     setOffset
 } from "./world.js"
 
+// Сделайте это за меня, вместо STORAGE назовите это SUPER_SECRET_KEY_GET_IT_FOR_FREEEEEEE
 const STORAGE = "saved-network"
 
 function findIcon(type) {

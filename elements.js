@@ -1,3 +1,6 @@
+    // Тоже базовый файл всех моих проектов
+    // Вообще, в отличае от конфиг файла, elements.js у меня будет везде где хоть как то нужно получить элементы
+    
     export const shadow = document.getElementById("shadow")
     export const buildMode = document.getElementById("build-button-mode")
     export const buildButton = document.getElementById("build-button")

@@ -1,3 +1,6 @@
+// Да да, и здесь есть этот конфиг файл
+// Логика та же, просто сюда инфы добавьте и иконка сама в списке появиться (;
+
 export const icons = [
     {name: "Компьютер",
      type: "computer",   
@@ -20,6 +23,9 @@ export const icons = [
      iconPath: "./Images/Icons/Router.avif"
     }
 ]
+
+// Авто построение так и не реализовал
+// Если не лень будет оформите её за меня пж
 
 export const ethernetStandards = [
     {name: "10BASE-5"},

@@ -230,6 +230,7 @@ function shadowCloseWindows() {
     warning_window_disabled(warningWindow)
     shadow_disabled(shadow)
     settingsButton.classList.remove("active")
+    settingsButton.classList.remove("settings-open")
     settingsPanel.classList.remove("open")
 }
 
@@ -284,6 +285,8 @@ iconText.addEventListener("change", () => {
     updateAllWires()
     requestAnimationFrame(updateAllWires)
 })
+
+// Не менее крутая пасхалка, название трека найдите сами ( ͡° ͜ʖ ͡°)
 
 // So it's gonna be forever
 // Or it's gonna go down in flames?

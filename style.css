@@ -500,3 +500,6 @@ input:checked + .slider .svg-icon #iconText-off {
     border: solid black 1px;
     border-radius: 5px;
 }
+
+/* Я понял как делать комменты в css, хз зачем они здесь */
+/* Как же я надоел с этим backdrop-filter, да? */

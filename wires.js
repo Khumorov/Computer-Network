@@ -23,6 +23,10 @@ import {
     saveNetwork
 } from "./storage.js"
 
+import {
+    scale
+} from "./world.js"
+
 export const wires = []
 
 let svgLayer = null
@@ -110,8 +114,8 @@ function createHitboxLine(startX, startY, endX, endY) {
 function getNodeCenter(node, viewportRect) {
     const nodeRect = node.getBoundingClientRect()
     return {
-        x: nodeRect.left - viewportRect.left + nodeRect.width / 2,
-        y: nodeRect.top - viewportRect.top + nodeRect.height / 2
+        x: (nodeRect.left - viewportRect.left + nodeRect.width / 2) / scale,
+        y: (nodeRect.top - viewportRect.top + nodeRect.height / 2) / scale
     }
   }
 
@@ -173,8 +177,8 @@ export function enableWireDrag(node) {
         svg.appendChild(previewLine)
 
         function onMouseMove(upEvent) {
-            const x = upEvent.clientX - viewportRect.left
-            const y = upEvent.clientY - viewportRect.top
+            const x = (upEvent.clientX - viewportRect.left) / scale
+            const y = (upEvent.clientY - viewportRect.top) / scale
             previewLine.setAttribute("x2", x)
             previewLine.setAttribute("y2", y)
         }

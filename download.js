@@ -3,12 +3,11 @@ import {
 } from "./wires.js"
 
 import {
-    offsetX,
-    offsetY
+    scale
 } from "./world.js"
 
 import {
-    canvas
+    viewport
 } from "./elements.js"
 
 import {
@@ -58,14 +57,14 @@ export async function downloadImage() {
     const bounds = getNetworkBounds()
     if (!bounds) return
 
-    const scale = window.devicePixelRatio || 1
+    const pixelRatio = window.devicePixelRatio || 1
 
     const exportCanvas = document.createElement("canvas")
-    exportCanvas.width = bounds.width * scale
-    exportCanvas.height = bounds.height * scale
+    exportCanvas.width = bounds.width * pixelRatio
+    exportCanvas.height = bounds.height * pixelRatio
 
     const context = exportCanvas.getContext("2d")
-    context.scale(scale, scale)
+    context.scale(pixelRatio, pixelRatio)
 
     context.fillStyle = "white"
     context.fillRect(0, 0, bounds.width, bounds.height)
@@ -125,7 +124,7 @@ export async function downloadImage() {
     })
 
     const nodes = document.querySelectorAll(".canvas-node")
-    const canvasRect = canvas.getBoundingClientRect()
+    const viewportRect = viewport.getBoundingClientRect()
 
     const images = await Promise.all(
         Array.from(nodes).map(node => {
@@ -133,15 +132,20 @@ export async function downloadImage() {
             const label = node.querySelector(".node-label")
             const imgRect = img.getBoundingClientRect()
 
+            const left = (imgRect.left - viewportRect.left) / scale
+            const top = (imgRect.top - viewportRect.top) / scale
+            const width = imgRect.width / scale
+            const height = imgRect.height / scale
+
             return loadImage(img.src).then(loadedImg => ({
                 img: loadedImg,
-                x: imgRect.left - canvasRect.left - bounds.x - offsetX,
-                y: imgRect.top - canvasRect.top - bounds.y - offsetY,
-                width: imgRect.width,
-                height: imgRect.height,
+                x: left - bounds.x,
+                y: top - bounds.y,
+                width: width,
+                height: height,
                 labelText: label ? label.textContent : "",
-                labelX: (imgRect.left - canvasRect.left - bounds.x - offsetX) + imgRect.width / 2,
-                labelY: (imgRect.top - canvasRect.top - bounds.y - offsetY) + imgRect.height + 20
+                labelX: left - bounds.x + width / 2,
+                labelY: top - bounds.y + height + 20
             }))
         })
     )

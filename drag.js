@@ -23,6 +23,10 @@ import {
     onIconTextDisabled
 } from "./helpers.js"
 
+import {
+    scale
+} from "./world.js"
+
 onSoundsMuted()
 
 let nodeIdCounter = 0
@@ -71,8 +75,8 @@ export function enableDrag(element, canvas, type, label) {
         if (dropInsideCanvas) {
 
             const viewportRect = viewport.getBoundingClientRect()
-            const x = upEvent.clientX - viewportRect.left
-            const y = upEvent.clientY - viewportRect.top
+            const x = (upEvent.clientX - viewportRect.left) / scale
+            const y = (upEvent.clientY - viewportRect.top) / scale
 
             createCanvasNode(iconClone.src, x, y, canvas, type, label)
         }
@@ -165,8 +169,6 @@ export function createCanvasNode(iconSrc, x, y, canvas, type, label, activeId) {
 
 }
 
-
-
 function makeNodeDraggable(node, canvas) {
     node.style.cursor = "grab"
     node.style.pointerEvents = "auto"
@@ -189,8 +191,8 @@ function makeNodeDraggable(node, canvas) {
 
         function onMouseMove(moveEvent) {
 
-            let newX = moveEvent.clientX - viewportRect.left - shiftX
-            let newY = moveEvent.clientY - viewportRect.top - shiftY
+            let newX = (moveEvent.clientX - viewportRect.left - shiftX) / scale
+            let newY = (moveEvent.clientY - viewportRect.top - shiftY) / scale
 
             node.style.left = `${newX}px`
             node.style.top = `${newY}px`

@@ -55,7 +55,8 @@ import {
 } from "./drag.js"
 
 import {
-    enablePan
+    enablePan,
+    enableZoom
 } from "./world.js"
 
 import {
@@ -150,8 +151,9 @@ const select = createSelect(ethernetStandards)
 buildModePanel.insertBefore(select, buildButton)
 
 enablePan(canvas, viewport, updateAllWires)
-
+enableZoom(canvas, viewport)
 viewport.addEventListener("world-pan_end", saveNetwork)
+viewport.addEventListener("world-zoom_end", saveNetwork)
 loadNetwork(createCanvasNode, createWire)
 
 function autoBuild() {

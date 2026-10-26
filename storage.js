@@ -16,7 +16,9 @@ import {
 import {
     offsetX,
     offsetY,
-    setOffset
+    scale,
+    setOffset,
+    setScale
 } from "./world.js"
 
 // Сделайте это за меня, вместо STORAGE назовите это SUPER_SECRET_KEY_GET_IT_FOR_FREEEEEEE
@@ -46,7 +48,7 @@ const savedWires = wires.map(wire => ({
 
 }))
 
-return { nodes, wires: savedWires, offsetX, offsetY }
+return { nodes, wires: savedWires, offsetX, offsetY, scale }
 
 }
 
@@ -64,6 +66,12 @@ export function clearSavedNetwork() {
 export function applyNetwork(saved, createNodeFunction, createWireFunction) {
     if (typeof saved.offsetX === "number" && typeof saved.offsetY === "number") {
         setOffset(saved.offsetX, saved.offsetY, viewport)
+    }
+
+    // По задумке эта строка защищает от старых файлов
+
+    if (Number.isFinite(saved.scale)) {
+        setScale(saved.scale, viewport)
     }
 
     if (!saved.nodes) return Promise.resolve()

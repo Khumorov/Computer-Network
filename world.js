@@ -24,17 +24,15 @@ export function enablePan(canvas, viewport, onPan) {
 
         canvas.classList.add("world")
 
-        const startX = event.clientX
-        const startY = event.clientY
-        const startOffsetX = offsetX
-        const startOffsetY = offsetY
+        let lastX = event.clientX
+        let lastY = event.clientY
 
         function onMouseMove(moveEvent) {
-            const deltaX = moveEvent.clientX - startX
-            const deltaY = moveEvent.clientY - startY
+            offsetX += moveEvent.clientX - lastX
+            offsetY += moveEvent.clientY - lastY
 
-            offsetX = startOffsetX + deltaX
-            offsetY = startOffsetY + deltaY
+            lastX = moveEvent.clientX
+            lastY = moveEvent.clientY
 
             applyTransform(viewport)
 

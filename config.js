@@ -14,13 +14,29 @@ export const icons = [
      type: "printer",        
      iconPath: "./Images/Icons/Printer.avif"
     },
-    {name: "Повторитель",
-     type: "repeater", 
-     iconPath: "./Images/Icons/Repeater.avif"
+    {name: "Коммутатор",
+     type: "switch", 
+     iconPath: "./Images/Icons/Switch.avif"
     },
     {name: "Роутер",
      type: "router",      
      iconPath: "./Images/Icons/Router.avif"
+    },
+    {name: "Файрвол",
+     type: "firewall",      
+     iconPath: "./Images/Icons/Firewall.avif"
+    },
+    {name: "Точка доступа",
+     type: "access-point",      
+     iconPath: "./Images/Icons/AccessPoint.avif"
+    },
+    {name: "Сервер",
+     type: "server",      
+     iconPath: "./Images/Icons/Server.avif"
+    },
+    {name: "Интернет",
+     type: "internet",      
+     iconPath: "./Images/Icons/Internet.avif"
     }
 ]
 

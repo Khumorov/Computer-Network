@@ -26,7 +26,7 @@ function findIcon(type) {
     return icons.find(icon => icon.type === type)
 }
 
-function getSavedNetwork() {
+export function getSavedNetwork() {
     const nodes = Array.from(viewport.querySelectorAll(".canvas-node")).map(node => ({
     
         id:     node.dataset.id,
@@ -59,22 +59,14 @@ export function clearSavedNetwork() {
     localStorage.removeItem(STORAGE)
 }
 
-export function loadNetwork(createNodeFunction, createWireFunction) {
-    const savedData = localStorage.getItem(STORAGE) 
-    if (!savedData) return
+// Это тот же код из loadnetwork только самую малость изменённый
 
-    let saved
-    try {
-        saved = JSON.parse(savedData)
-    } catch {
-        return
-    }
-
+export function applyNetwork(saved, createNodeFunction, createWireFunction) {
     if (typeof saved.offsetX === "number" && typeof saved.offsetY === "number") {
         setOffset(saved.offsetX, saved.offsetY, viewport)
     }
 
-    if (!saved.nodes) return
+    if (!saved.nodes) return Promise.resolve()
 
     const nodesById = {}
 
@@ -88,7 +80,7 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
             savedNode.y + 30,
             null, 
             savedNode.type, 
-            savedNode.label, 
+            savedNode.label || icon.name, 
             savedNode.id
 
         )
@@ -97,29 +89,44 @@ export function loadNetwork(createNodeFunction, createWireFunction) {
     
     })
 
-    if (saved.wires) {
-        const images = Object.values(nodesById)
-        .map(node => node.querySelector("img"))
-        .filter(img => img && !img.complete)
+    if (!saved.wires) return Promise.resolve()
 
-        const waitForImages = images.length
-        ? Promise.all(images.map(img => new Promise(resolve => {
-            img.addEventListener("load", resolve, { once: true })
-            img.addEventListener("error", resolve, { once: true })
-        })))
-        :Promise.resolve()
+    const images = Object.values(nodesById)
+    .map(node => node.querySelector("img"))
+    .filter(img => img && !img.complete)
 
-        waitForImages.then(() => {
-            saved.wires.forEach(savedWire => {
-                const fromNode = nodesById[savedWire.fromId]
-                const toNode = nodesById[savedWire.toId]
+    const waitForImages = images.length
+    ? Promise.all(images.map(img => new Promise(resolve => {
+        img.addEventListener("load", resolve, { once: true })
+        img.addEventListener("error", resolve, { once: true })
+    })))
+    :Promise.resolve()
 
-                if (fromNode && toNode) {
-                    createWireFunction(fromNode, toNode, savedWire.titleTop || "", savedWire.titleBottom || "")
-                }
-            })
+    return waitForImages.then(() => {
+        saved.wires.forEach(savedWire => {
+            const fromNode = nodesById[savedWire.fromId]
+            const toNode = nodesById[savedWire.toId]
+
+            if (fromNode && toNode) {
+                createWireFunction(fromNode, toNode, savedWire.titleTop ||  "", savedWire.titleBottom || "")
+            }
         })
+    })
+}
+
+export function loadNetwork(createNodeFunction, createWireFunction) {
+    const savedData = localStorage.getItem(STORAGE) 
+    if (!savedData) return
+
+    let saved
+    try {
+        saved = JSON.parse(savedData)
+    } catch {
+        return
     }
+
+    applyNetwork(saved, createNodeFunction, createWireFunction)
+
 }
 
 

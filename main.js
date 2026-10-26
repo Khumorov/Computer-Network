@@ -4,12 +4,15 @@ import {
     buildModePanel,
     buildButton,
     download,
+    importButton,
+    exportButton,
     cabel,
     erase,
     newCanvas,
     warningWindow,
     choiceYes,
     choiceNo,
+    warningWindowMainTitle,
     clickSound,
     completeSound,
     pageFlipSound,
@@ -66,12 +69,22 @@ import {
     loadNetwork,
     clearSavedNetwork,
     saveSettings,
-    loadSettings
+    loadSettings,
+    getSavedNetwork,
+    applyNetwork
 } from "./storage.js"
 
 import {
     downloadImage
 } from "./download.js"
+
+import {
+    exportNetwork,
+    pickNetworkFile,
+    readNetworkFile
+} from "./schema.js"
+
+let pendingAction = null
 
 onSoundsMuted()
 onAnimationsDisabled()
@@ -188,6 +201,8 @@ function onNewCanvasClick() {
     playClickSound()
     warning_window_enabled(warningWindow)
     shadow_enabled(shadow)
+    pendingAction = clearAllCanvas
+    warningWindowMainTitle.textContent = "Вы точно хотите создать новый холст?"
 }
 
 function clearAllCanvas() {
@@ -208,15 +223,17 @@ function clearAllCanvas() {
 
 function onChoiceYesClick(event) {
     event.stopPropagation()
-    clearAllCanvas()
+    if (pendingAction) pendingAction()
     warning_window_disabled(warningWindow)
     shadow_disabled(shadow)
+    pendingAction = null
 }
 
 function onChoiceNoClick() {
     playClickSound()
     warning_window_disabled(warningWindow)
     shadow_disabled(shadow)
+    pendingAction = null
 }
 
 function onDownloadClick() {
@@ -232,6 +249,7 @@ function shadowCloseWindows() {
     settingsButton.classList.remove("active")
     settingsButton.classList.remove("settings-open")
     settingsPanel.classList.remove("open")
+    pendingAction = null
 }
 
 function toggleButton() {
@@ -249,6 +267,47 @@ function toggleButton() {
     }
 }
 
+async function onExportButtonClick() {
+    playClickSound()
+
+    try {
+        await exportNetwork(getSavedNetwork())
+    } catch (error) {
+        console.log("Не удалось сохранить файл: " + error.message)
+    }
+}
+
+async function onImportButtonClick() {
+    playClickSound()
+
+    const file = await pickNetworkFile()
+    if (!file) return
+
+    let data
+    try {
+        data = await readNetworkFile(file)
+    } catch (error) {
+        console.log("Не удалось открыть файл: " + error.message)
+        return
+    }
+
+    if (document.querySelector(".canvas-node")) {
+        warningWindowMainTitle.textContent = "Вы точно хотите импортировать новый холст?"
+        pendingAction = () => importNetwork(data)
+        warning_window_enabled(warningWindow)
+        shadow_enabled(shadow)
+    } else {
+        importNetwork(data)
+    }
+}
+
+function importNetwork(data) {
+    clearAllCanvas()
+    applyNetwork(data, createCanvasNode, createWire).then(() => {
+        saveNetwork()
+    })
+}
+
 // buildMode.addEventListener("click", autoBuild)
 shadow.addEventListener("click", shadowCloseWindows)
 buildButton.addEventListener("click", onButtonClick)
@@ -259,6 +318,8 @@ newCanvas.addEventListener("click", onNewCanvasClick)
 choiceYes.addEventListener("click", onChoiceYesClick)
 choiceNo.addEventListener("click", onChoiceNoClick)
 settingsButton.addEventListener("click", toggleButton)
+importButton.addEventListener("click", onImportButtonClick)
+exportButton.addEventListener("click", onExportButtonClick)
 
 
 settingsPanel.addEventListener("transitionend", () => {

@@ -181,18 +181,19 @@ function makeNodeDraggable(node, canvas) {
 
         event.stopPropagation()
 
-        const viewportRect = viewport.getBoundingClientRect()
         const nodeRect = node.getBoundingClientRect()
 
-        const shiftX = event.clientX - nodeRect.left
-        const shiftY = event.clientY - nodeRect.top
+        const grabX = (event.clientX - nodeRect.left) / scale
+        const grabY = (event.clientY - nodeRect.top) / scale
 
         node.style.cursor = "grabbing"
 
         function onMouseMove(moveEvent) {
 
-            let newX = (moveEvent.clientX - viewportRect.left - shiftX) / scale
-            let newY = (moveEvent.clientY - viewportRect.top - shiftY) / scale
+            const viewportRect = viewport.getBoundingClientRect()
+
+            let newX = (moveEvent.clientX - viewportRect.left) / scale - grabX
+            let newY = (moveEvent.clientY - viewportRect.top) / scale - grabY
 
             node.style.left = `${newX}px`
             node.style.top = `${newY}px`

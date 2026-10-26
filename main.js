@@ -249,7 +249,7 @@ function toggleButton() {
     }
 }
 
-buildMode.addEventListener("click", autoBuild)
+// buildMode.addEventListener("click", autoBuild)
 shadow.addEventListener("click", shadowCloseWindows)
 buildButton.addEventListener("click", onButtonClick)
 download.addEventListener("click", onDownloadClick)

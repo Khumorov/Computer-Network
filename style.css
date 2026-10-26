@@ -124,6 +124,8 @@ body {
 #build:active,
 #new-canvas:active,
 #wire-window-save-button:active,
+#import-button:active,
+#export-button:active,
 .choice-button:active {
     background: black;
     color: white;

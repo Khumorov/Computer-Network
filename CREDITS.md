@@ -91,3 +91,13 @@
 - License: CC0
 - Attribution: not required
 - Uploader: SVG Repo
+
+## Fonts
+
+### Rubik Mono One
+
+- Source: https://fonts.google.com/specimen/Rubik+Mono+One
+
+- License: SIL Open Font License 1.1 (see licenses/RubikMonoOne-LICENSE)
+- Attribution: not required
+- Author: The Rubik Project Authors

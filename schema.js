@@ -14,6 +14,12 @@ const MAX_LABEL     = 50
 const MAX_TITLE     = 50
 const MAX_COORD     = 20000
 
+// Если интересно, то значения здесь не случайные и не приблизительные
+// Я собрал самую тяжёлую схему на максимум используя какие либо лимиты
+// После чего я просто подставил значения веса файла чуть больше чем вышло в итоге
+const MAX_FILE_SIZE = 2_000_000
+const MAX_JSON_SIZE = 3_000_000
+
 const NODE_TYPES = new Set(icons.map(icon => icon.type))
 
 async function gzip(text) {
@@ -21,9 +27,28 @@ async function gzip(text) {
     return await new Response(stream).blob()
 }
 
-async function gunzip(buffer) {
+async function gunzip(buffer, limit) {
     const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream("gzip"))
-    return await new Response(stream).text()
+    const reader = stream.getReader()
+    const chunks = []
+    let total = 0
+
+    while (true) {
+        const {done, value} = await reader.read()
+
+        if (done) break
+
+        total += value.length
+
+        if (total > limit) {
+            await reader.cancel()
+            throw new Error("Файл слишком большой")
+        }
+
+        chunks.push(value)
+    }
+
+    return await new Blob(chunks).text()
 }
 
 function isGzip(bytes) {
@@ -166,6 +191,11 @@ export function pickNetworkFile() {
 }
 
 export async function readNetworkFile(file) {
+
+    if (file.size > MAX_FILE_SIZE) {
+        throw new Error("Файл слишком большой")
+    }
+
     const bytes = new Uint8Array(await file.arrayBuffer())
 
     if (!isGzip(bytes)) {
@@ -174,7 +204,7 @@ export async function readNetworkFile(file) {
 
     let data
     try {
-        data = JSON.parse(await gunzip(bytes))
+        data = JSON.parse(await gunzip(bytes, MAX_JSON_SIZE))
     } catch {
         throw new Error("Файл повреждён или это не схема")
     }

@@ -88,7 +88,7 @@ export function applyNetwork(saved, createNodeFunction, createWireFunction) {
             savedNode.y + 30,
             null, 
             savedNode.type, 
-            savedNode.label || icon.name, 
+            icon.name, 
             savedNode.id
 
         )

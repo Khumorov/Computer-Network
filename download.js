@@ -161,8 +161,14 @@ export async function downloadImage() {
         }
     })
 
+    // Изначально я хотел здесь сделать timestamp но по моему это нужно только самой системе
+    // Не думаю что юзеру будет удобно ради того что бы дату узнать сидеть и декодировать timestamp, хах
+    
+    const now = new Date()
+    const pad = n => String(n).padStart(2, "0")
+    const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`
     const link = document.createElement("a")
-    link.download = "network.png"
+    link.download = `network_${stamp}.png`
     link.href = exportCanvas.toDataURL("image/png")
     link.click()
 

@@ -14,6 +14,11 @@ import {
     getWireLabelPositions
 } from "./helpers.js"
 
+const LABEL_FONT = "20px sans-serif"
+const measureContext = document.createElement("canvas").getContext("2d")
+
+measureContext.font = LABEL_FONT
+
 function getNetworkBounds() {
     const nodes = document.querySelectorAll(".canvas-node")
     if (nodes.length === 0) return null
@@ -28,6 +33,12 @@ function getNetworkBounds() {
         minY = Math.min(minY, top)
         maxX = Math.max(maxX, left + node.offsetWidth)
         maxY = Math.max(maxY, top + node.offsetHeight)
+
+        const label = node.querySelector(".node-label")
+        const textWidth = label ? measureContext.measureText(label.textContent).width : 0
+        const centerX = left + node.offsetWidth / 2
+        minX = Math.min(minX, left, centerX - textWidth / 2)
+        maxX = Math.max(maxX, left + node.offsetWidth, centerX + textWidth / 2)
     })
 
     const padding = 80
@@ -151,7 +162,7 @@ export async function downloadImage() {
     )
 
     context.fillStyle = "black"
-    context.font = "20px sans-serif"
+    context.font = LABEL_FONT
     context.textAlign = "center"
 
     images.forEach(item => {
@@ -163,7 +174,7 @@ export async function downloadImage() {
 
     // Изначально я хотел здесь сделать timestamp но по моему это нужно только самой системе
     // Не думаю что юзеру будет удобно ради того что бы дату узнать сидеть и декодировать timestamp, хах
-    
+
     const now = new Date()
     const pad = n => String(n).padStart(2, "0")
     const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`
